@@ -66,10 +66,10 @@ const Constants = {
     // Score adjustment for Hong Kong ending scores
     // Calculated as analogous to Japanese system
     HKG_SCORE_ADJUSTMENT: [
-        100,
-        50,
-        -50,
-        -100
+        450,
+        150,
+        -150,
+        -450
     ],
 
     // Score adjustment for Japanese ending scores
@@ -102,7 +102,9 @@ const Constants = {
         // Hong Kong Old Style
         HONG_KONG: "hongKong",
         // Japanese Riichi Style
-        JAPANESE: "japanese"
+        JAPANESE: "japanese",
+        // Japanese Riichi upper league
+        UPPER_JAPANESE: "upperJapanese"
     },
 
     // Round End Conditions

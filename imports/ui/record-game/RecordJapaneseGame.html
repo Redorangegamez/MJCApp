@@ -2,48 +2,49 @@
   <h2>Riichi Japanese Mahjong Game Sheet</h2>
 
   <section id="jpn_container" class="game_input_form container">
+    <div>
+      <label for="upperJapaneseGame">Will this be an Upper Riichi League Game? </label>
+      <input id="upperJapaneseGame" name="upperJapaneseGame" type="checkbox">
+    </div>
     <div id = "jpn_names">
-        <div class="player-block">
-          <div class="player-entry col-lg-3 col-xs-6">
-            <p>East</p>
-            <select id="east_player" name="east_player">
-              <option disabled selected value> -- Select East Player (東) -- </option>
-              {{#each players}}
-              {{> jpn_player_select_east}}
-              {{/each}}
-            </select>
-          </div>
-          <div class="player-entry col-lg-3 col-xs-6">
-            <p>South</p>
-            <select name="south_player">
-              <option disabled selected value> -- Select South Player (南) -- </option>
-              {{#each players}}
-              {{> jpn_player_select_south}}
-              {{/each}}
-            </select>
-          </div>
-          <div class="player-entry col-lg-3 col-xs-6">
-            <p>West</p>
-            <select name="west_player">
-              <option disabled selected value> -- Select West Player (西) -- </option>
-              {{#each players}}
-              {{> jpn_player_select_west}}
-              {{/each}}
-            </select>
-          </div>
-          <div class="player-entry col-lg-3 col-xs-6">
-            <p>North</p>
-            <select name="north_player">
-              <option disabled selected value> -- Select North Player (北) -- </option>
-              {{#each players}}
-              {{> jpn_player_select_north}}
-              {{/each}}
-            </select>
-          </div>
+      <div class="player-block">
+        <div class="player-entry col-lg-3 col-xs-6">
+          <p>East</p>
+          <select name="east_player" id="east_player_dropdown">
+            <option disabled selected value> -- Select East Player (東) -- </option>
+            {{#each players}}
+            {{> jpn_player_select_east}}
+            {{/each}}
+          </select>
         </div>
-        <div class ="nav-block">
-          <input type="button" value="Submit Names" class="btn btn-primary btn-block submit_names_button">
+        <div class="player-entry col-lg-3 col-xs-6">
+          <p>South</p>
+          <select name="south_player" id="south_player_dropdown">
+            <option disabled selected value> -- Select South Player (南) -- </option>
+            {{#each players}}
+            {{> jpn_player_select_south}}
+            {{/each}}
+          </select>
         </div>
+        <div class="player-entry col-lg-3 col-xs-6">
+          <p>West</p>
+          <select name="west_player" id="west_player_dropdown">
+            <option disabled selected value> -- Select West Player (西) -- </option>
+            {{#each players}}
+            {{> jpn_player_select_west}}
+            {{/each}}
+          </select>
+        </div>
+        <div class="player-entry col-lg-3 col-xs-6">
+          <p>North</p>
+          <select name="north_player" id="north_player_dropdown">
+            <option disabled selected value> -- Select North Player (北) -- </option>
+            {{#each players}}
+            {{> jpn_player_select_north}}
+            {{/each}}
+          </select>
+        </div>
+      </div>
     </div>
     <div id="jpn_game_buttons" style="display:none">
         <div class="nav-block">

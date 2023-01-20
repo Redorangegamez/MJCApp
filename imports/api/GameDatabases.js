@@ -6,6 +6,7 @@ export const HongKongHands = new Mongo.Collection('hongKongHands');
 export const JapaneseHands = new Mongo.Collection('japaneseHands');
 export const InProgressHongKongHands = new Mongo.Collection('inProgressHongKongHands');
 export const InProgressJapaneseHands = new Mongo.Collection('inProgressJapaneseHands');
+export const UpperJapaneseHands = new Mongo.Collection('upperJapaneseHands');
 
 if (Meteor.isServer){
    InProgressJapaneseHands.createIndex( { "timestamp": 1}, { expireAfterSeconds: 86400} );
