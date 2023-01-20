@@ -1303,7 +1303,7 @@ function save_game_to_database(hands_array) {
             northPlayerRiichiEV: Session.get("northPlayerRiichiEV")
         };
 
-        Meteor.call('updateJapanesePlayers', game3);
+        Meteor.call('updateUpperJapanesePlayers', game3);
     }
 
     //Save game to database
@@ -1323,6 +1323,7 @@ function push_dealin_hand(template) {
     let riichiSum = Session.get("free_riichi_sticks");
     let seatDeltas = {};
     Constants.WINDS.forEach(w => seatDeltas[w] = 0);
+
 
     // Find riichis and save them to allocate them
     if (Session.get("east_riichi") == true) {
@@ -1423,6 +1424,19 @@ function push_dealin_hand(template) {
             Session.set("northPlayerDealInAfterRiichiTotal", Number(Session.get("northPlayerDealInAfterRiichiTotal")) + 1);
             Session.set("northPlayerRiichiEV", Number(Session.get("northPlayerRiichiEV")) + seatDeltas["north"]);
         }
+    }
+
+    if (loserWind != Constants.EAST && winnerWind != Constants.EAST && Session.get("east_riichi") == true) {
+        Session.set("eastPlayerRiichiEV", Number(Session.get("eastPlayerRiichiEV")) - 1000);
+    }
+    if (loserWind != Constants.SOUTH && winnerWind != Constants.SOUTH && Session.get("south_riichi") == true) {
+        Session.set("southPlayerRiichiEV", Number(Session.get("southPlayerRiichiEV")) - 1000);
+    }
+    if (loserWind != Constants.WEST && winnerWind != Constants.WEST && Session.get("west_riichi") == true) {
+        Session.set("westPlayerRiichiEV", Number(Session.get("westPlayerRiichiEV")) - 1000);
+    }
+    if (loserWind != Constants.NORTH && winnerWind != Constants.NORTH && Session.get("north_riichi") == true) {
+        Session.set("northPlayerRiichiEV", Number(Session.get("northPlayerRiichiEV")) - 1000);
     }
 
     Session.set("free_riichi_sticks", 0);
@@ -1820,6 +1834,19 @@ function push_split_pao_hand(template) {
         if (Session.get("north_riichi") == true) {
             Session.set("northlayerRiichiEV", Number(Session.get("northPlayerRiichiEV")) + seatDeltas["north"]);
         }
+    }
+
+    if (loserWind != Constants.EAST && winnerWind != Constants.EAST && paoWind == Constants.EAST && Session.get("east_riichi") == true) {
+        Session.set("eastPlayerRiichiEV", Number(Session.get("eastPlayerRiichiEV")) - 1000);
+    }
+    if (loserWind != Constants.SOUTH && winnerWind != Constants.SOUTH && paoWind == Constants.SOUTH && Session.get("south_riichi") == true) {
+        Session.set("southPlayerRiichiEV", Number(Session.get("southPlayerRiichiEV")) - 1000);
+    }
+    if (loserWind != Constants.WEST && winnerWind != Constants.WEST && paoWind == Constants.WEST && Session.get("west_riichi") == true) {
+        Session.set("westPlayerRiichiEV", Number(Session.get("westPlayerRiichiEV")) - 1000);
+    }
+    if (loserWind != Constants.NORTH && winnerWind != Constants.NORTH && paoWind == Constants.NORTH && Session.get("north_riichi") == true) {
+        Session.set("northPlayerRiichiEV", Number(Session.get("northPlayerRiichiEV")) - 1000);
     }
 
     Session.set("free_riichi_sticks", 0);

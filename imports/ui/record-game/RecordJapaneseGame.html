@@ -2,11 +2,11 @@
   <h2>Riichi Japanese Mahjong Game Sheet</h2>
 
   <section id="jpn_container" class="game_input_form container">
-    <div>
-      <label for="upperJapaneseGame">Will this be an Upper Riichi League Game? </label>
-      <input id="upperJapaneseGame" name="upperJapaneseGame" type="checkbox">
-    </div>
     <div id = "jpn_names">
+      <div>
+        <label for="upperJapaneseGame">Will this be an Upper Riichi League Game? </label>
+        <input id="upperJapaneseGame" name="upperJapaneseGame" type="checkbox">
+      </div>
       <div class="player-block">
         <div class="player-entry col-lg-3 col-xs-6">
           <p>East</p>
@@ -44,6 +44,9 @@
             {{/each}}
           </select>
         </div>
+      </div>
+      <div class ="nav-block">
+        <input type="button" value="Submit Names" class="btn btn-primary btn-block submit_names_button">
       </div>
     </div>
     <div id="jpn_game_buttons" style="display:none">

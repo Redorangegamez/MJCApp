@@ -46,39 +46,55 @@ Meteor.methods({
   updateInProgressJapaneseGame: function (game) {
      InProgressJapaneseHands.update({_id: game.game_id},
          {$set:{all_hands: game.all_hands,
-                current_round: game.current_round,
-                current_bonus: game.current_bonus,
-                free_riichi_sticks: game.free_riichi_sticks,
-                riichi_sum_history: game.riichi_sum_history,
-                riichi_round_history: game.riichi_round_history,
-                eastPlayerWins: game.eastPlayerWins,
-                southPlayerWins: game.southPlayerWins,
-                westPlayerWins: game.westPlayerWins,
-                northPlayerWins: game.northPlayerWins,
-                eastPlayerLosses: game.eastPlayerLosses,
-                southPlayerLosses: game.southPlayerLosses,
-                westPlayerLosses: game.westPlayerLosses,
-                northPlayerLosses: game.northPlayerLosses,
-                eastPlayerPointsWon: game.eastPlayerPointsWon,
-                southPlayerPointsWon: game.southPlayerPointsWon,
-                westPlayerPointsWon: game.westPlayerPointsWon,
-                northPlayerPointsWon: game.northPlayerPointsWon,
-                eastMistakeTotal: game.eastMistakeTotal,
-                southMistakeTotal: game.southMistakeTotal,
-                westMistakeTotal: game.westMistakeTotal,
-                northMistakeTotal: game.northMistakeTotal,
-                east_riichi_sum: game.east_riichi_sum,
-                south_riichi_sum: game.south_riichi_sum,
-                west_riichi_sum: game.west_riichi_sum,
-                north_riichi_sum: game.north_riichi_sum,
-                eastPlayerRiichisWon: game.eastPlayerRiichisWon,
-                southPlayerRiichisWon: game.southPlayerRiichisWon,
-                westPlayerRiichisWon: game.westPlayerRiichisWon,
-                northPlayerRiichisWon: game.northPlayerRiichisWon,
-                eastPlayerDoraSum: game.eastPlayerDoraSum,
-                southPlayerDoraSum: game.southPlayerDoraSum,
-                westPlayerDoraSum: game.westPlayerDoraSum,
-                northPlayerDoraSum: game.northPlayerDoraSum},
+            current_round: game.current_round,
+            current_bonus: game.current_bonus,
+            free_riichi_sticks: game.free_riichi_sticks,
+            riichi_sum_history: game.riichi_sum_history,
+            riichi_round_history: game.riichi_round_history,
+            eastPlayerWins: game.eastPlayerWins,
+            southPlayerWins: game.southPlayerWins,
+            westPlayerWins: game.westPlayerWins,
+            northPlayerWins: game.northPlayerWins,
+            eastPlayerLosses: game.eastPlayerLosses,
+            southPlayerLosses: game.southPlayerLosses,
+            westPlayerLosses: game.westPlayerLosses,
+            northPlayerLosses: game.northPlayerLosses,
+            eastPlayerPointsWon: game.eastPlayerPointsWon,
+            southPlayerPointsWon: game.southPlayerPointsWon,
+            westPlayerPointsWon: game.westPlayerPointsWon,
+            northPlayerPointsWon: game.northPlayerPointsWon,
+            eastMistakeTotal: game.eastMistakeTotal,
+            southMistakeTotal: game.southMistakeTotal,
+            westMistakeTotal: game.westMistakeTotal,
+            northMistakeTotal: game.northMistakeTotal,
+            east_riichi_sum: game.east_riichi_sum,
+            south_riichi_sum: game.south_riichi_sum,
+            west_riichi_sum: game.west_riichi_sum,
+            north_riichi_sum: game.north_riichi_sum,
+            eastPlayerRiichisWon: game.eastPlayerRiichisWon,
+            southPlayerRiichisWon: game.southPlayerRiichisWon,
+            westPlayerRiichisWon: game.westPlayerRiichisWon,
+            northPlayerRiichisWon: game.northPlayerRiichisWon,
+            eastPlayerDoraSum: game.eastPlayerDoraSum,
+            southPlayerDoraSum: game.southPlayerDoraSum,
+            westPlayerDoraSum: game.westPlayerDoraSum,
+            northPlayerDoraSum: game.northPlayerDoraSum,
+            eastPlayerDealInTotal: game.eastPlayerDealInTotal,
+            southPlayerDealInTotal: game.southPlayerDealInTotal,
+            westPlayerDealInTotal: game.westPlayerDealInTotal,
+            northPlayerDealInTotal: game.northPlayerDealInTotal,
+            eastPlayerDealInAfterRiichiTotal: game.eastPlayerDealInAfterRiichiTotal,
+            southPlayerDealInAfterRiichiTotal: game.southPlayerDealInAfterRiichiTotal,
+            westPlayerDealInAfterRiichiTotal: game.westPlayerDealInAfterRiichiTotal,
+            northPlayerDealInAfterRiichiTotal: game.northPlayerDealInAfterRiichiTotal,
+            eastPlayerSelfDrawTotal: game.eastPlayerSelfDrawTotal,
+            southPlayerSelfDrawTotal: game.southPlayerSelfDrawTotal,
+            westPlayerSelfDrawTotal: game.westPlayerSelfDrawTotal,
+            northPlayerSelfDrawTotal: game.northPlayerSelfDrawTotal,
+            eastPlayerRiichiEV: game.eastPlayerRiichiEV,
+            southPlayerRiichiEV: game.southPlayerRiichiEV,
+            westPlayerRiichiEV: game.westPlayerRiichiEV,
+            northPlayerRiichiEV: game.northPlayerRiichiEV},
          $inc: {east_score: game.eastDelta, south_score: game.southDelta,
                 west_score: game.westDelta, north_score: game.northDelta}});
   },
@@ -194,6 +210,30 @@ Meteor.methods({
            Players.update({_id: west_id}, {$inc: {japaneseHandsLose: Number(game.westPlayerLosses)}});
            Players.update({_id: north_id}, {$inc: {japaneseHandsLose: Number(game.northPlayerLosses)}});
 
+           // Save total deal in amount
+           Players.update({_id: east_id}, {$inc: {japaneseDealInTotal: Number(game.eastPlayerDealInTotal)}});
+           Players.update({_id: south_id}, {$inc: {japaneseDealInTotal: Number(game.southPlayerDealInTotal)}});
+           Players.update({_id: west_id}, {$inc: {japaneseDealInTotal: Number(game.westPlayerDealInTotal)}});
+           Players.update({_id: north_id}, {$inc: {japaneseDealInTotal: Number(game.northPlayerDealInTotal)}});
+
+            // Save total deal in times after riichi
+           Players.update({_id: east_id}, {$inc: {japaneseDealInAfterRiichiTotal: Number(game.eastPlayerDealInAfterRiichiTotal)}});
+           Players.update({_id: south_id}, {$inc: {japaneseDealInAfterRiichiTotal: Number(game.southPlayerDealInAfterRiichiTotal)}});
+           Players.update({_id: west_id}, {$inc: {japaneseDealInAfterRiichiTotal: Number(game.westPlayerDealInAfterRiichiTotal)}});
+           Players.update({_id: north_id}, {$inc: {japaneseDealInAfterRiichiTotal: Number(game.northPlayerDealInAfterRiichiTotal)}});
+
+            // Save total self draw times
+           Players.update({_id: east_id}, {$inc: {japaneseSelfDrawTotal: Number(game.eastPlayerSelfDrawTotal)}});
+           Players.update({_id: south_id}, {$inc: {japaneseSelfDrawTotal: Number(game.southPlayerSelfDrawTotal)}});
+           Players.update({_id: west_id}, {$inc: {japaneseSelfDrawTotal: Number(game.westPlayerSelfDrawTotal)}});
+           Players.update({_id: north_id}, {$inc: {japaneseSelfDrawTotal: Number(game.northPlayerSelfDrawTotal)}});
+
+            // Save riichi EV
+           Players.update({_id: east_id}, {$inc: {japaneseRiichiEV: Number(game.eastPlayerRiichiEV)}});
+           Players.update({_id: south_id}, {$inc: {japaneseRiichiEV: Number(game.southPlayerRiichiEV)}});
+           Players.update({_id: west_id}, {$inc: {japaneseRiichiEV: Number(game.westPlayerRiichiEV)}});
+           Players.update({_id: north_id}, {$inc: {japaneseRiichiEV: Number(game.northPlayerRiichiEV)}});
+
            let idMappings = { east: east_id, south: south_id, west: west_id, north: north_id };
 
            // Calculates all positions quickly
@@ -202,6 +242,118 @@ Meteor.methods({
            Players.update({ _id: idMappings[game.positions[2].wind] }, { $inc: { japaneseThirdPlaceSum: 1 }});
            Players.update({ _id: idMappings[game.positions[3].wind] }, { $inc: { japaneseFourthPlaceSum: 1 }});
        }
+    },
+
+    updateUpperJapanesePlayers: function (game) {
+
+        let east_id = Players.findOne({upperJapaneseLeagueName: game.east_player}, {})._id;
+        let south_id = Players.findOne({upperJapaneseLeagueName: game.south_player}, {})._id;
+        let west_id = Players.findOne({upperJapaneseLeagueName: game.west_player}, {})._id;
+        let north_id = Players.findOne({upperJapaneseLeagueName: game.north_player}, {})._id;
+
+        if (game.east_elo_delta != NaN && game.south_elo_delta != NaN && game.west_elo_delta != NaN && game.north_elo_delta != NaN) {
+            // Save ELO
+            Players.update({_id: east_id}, {$inc: {upperJapaneseElo: Number(game.east_elo_delta)}});
+            Players.update({_id: south_id}, {$inc: {upperJapaneseElo: Number(game.south_elo_delta)}});
+            Players.update({_id: west_id}, {$inc: {upperJapaneseElo: Number(game.west_elo_delta)}});
+            Players.update({_id: north_id}, {$inc: {upperJapaneseElo: Number(game.north_elo_delta)}});
+
+            // Update number of games
+            Players.update({_id: east_id}, {$inc: {upperJapaneseGamesPlayed: 1}});
+            Players.update({_id: south_id}, {$inc: {upperJapaneseGamesPlayed: 1}});
+            Players.update({_id: west_id}, {$inc: {upperJapaneseGamesPlayed: 1}});
+            Players.update({_id: north_id}, {$inc: {upperJapaneseGamesPlayed: 1}});
+
+            // Update bankruptcy count
+            if (Number(game.east_score) < 0)
+                Players.update({_id: east_id}, {$inc: {upperJapaneseBankruptTotal: 1}});
+            if (Number(game.south_score) < 0)
+                Players.update({_id: south_id}, {$inc: {upperJapaneseBankruptTotal: 1}});
+            if (Number(game.west_score) < 0)
+                Players.update({_id: west_id}, {$inc: {upperJapaneseBankruptTotal: 1}});
+            if (Number(game.north_score) < 0)
+                Players.update({_id: north_id}, {$inc: {upperJapaneseBankruptTotal: 1}});
+
+            // Save chombo counts
+            Players.update({_id: east_id}, {$inc: {upperJapaneseChomboTotal: Number(game.eastMistakeTotal)}});
+            Players.update({_id: south_id}, {$inc: {upperJapaneseChomboTotal: Number(game.southMistakeTotal)}});
+            Players.update({_id: west_id}, {$inc: {upperJapaneseChomboTotal: Number(game.westMistakeTotal)}});
+            Players.update({_id: north_id}, {$inc: {upperJapaneseChomboTotal: Number(game.northMistakeTotal)}});
+
+            // Update riichi count
+            Players.update({_id: east_id}, {$inc: {upperJapaneseRiichiTotal: Number(game.east_riichi_sum)}});
+            Players.update({_id: south_id}, {$inc: {upperJapaneseRiichiTotal: Number(game.south_riichi_sum)}});
+            Players.update({_id: west_id}, {$inc: {upperJapaneseRiichiTotal: Number(game.west_riichi_sum)}});
+            Players.update({_id: north_id}, {$inc: {upperJapaneseRiichiTotal: Number(game.north_riichi_sum)}});
+
+            // Update hands count (Includes chombos, do we want this?)
+            Players.update({_id: east_id}, {$inc: {upperJapaneseHandsTotal: game.hands_array_length}});
+            Players.update({_id: south_id}, {$inc: {upperJapaneseHandsTotal: game.hands_array_length}});
+            Players.update({_id: west_id}, {$inc: {upperJapaneseHandsTotal: game.hands_array_length}});
+            Players.update({_id: north_id}, {$inc: {upperJapaneseHandsTotal: game.hands_array_length}});
+
+            // Save number of hands won
+            Players.update({_id: east_id}, {$inc: {upperJapaneseHandsWin: Number(game.eastPlayerWins)}});
+            Players.update({_id: south_id}, {$inc: {upperJapaneseHandsWin: Number(game.southPlayerWins)}});
+            Players.update({_id: west_id}, {$inc: {upperJapaneseHandsWin: Number(game.westPlayerWins)}});
+            Players.update({_id: north_id}, {$inc: {upperJapaneseHandsWin: Number(game.northPlayerWins)}});
+
+            // Save number of points won
+            Players.update({_id: east_id}, {$inc: {upperJapaneseWinPointsTotal: Number(game.eastPlayerPointsWon)}});
+            Players.update({_id: south_id}, {$inc: {upperJapaneseWinPointsTotal: Number(game.southPlayerPointsWon)}});
+            Players.update({_id: west_id}, {$inc: {upperJapaneseWinPointsTotal: Number(game.westPlayerPointsWon)}});
+            Players.update({_id: north_id}, {$inc: {upperJapaneseWinPointsTotal: Number(game.northPlayerPointsWon)}});
+
+            // Update total dora
+            Players.update({_id: east_id}, {$inc: {upperJapaneseWinDoraTotal: Number(game.eastPlayerDoraSum)}});
+            Players.update({_id: south_id}, {$inc: {upperJapaneseWinDoraTotal: Number(game.southPlayerDoraSum)}});
+            Players.update({_id: west_id}, {$inc: {upperJapaneseWinDoraTotal: Number(game.westPlayerDoraSum)}});
+            Players.update({_id: north_id}, {$inc: {upperJapaneseWinDoraTotal: Number(game.northPlayerDoraSum)}});
+
+            // Save number of riichied hands won
+            Players.update({_id: east_id}, {$inc: {upperJapaneseWinRiichiTotal: Number(game.eastPlayerRiichisWon)}});
+            Players.update({_id: south_id}, {$inc: {upperJapaneseWinRiichiTotal: Number(game.southPlayerRiichisWon)}});
+            Players.update({_id: west_id}, {$inc: {upperJapaneseWinRiichiTotal: Number(game.westPlayerRiichisWon)}});
+            Players.update({_id: north_id}, {$inc: {upperJapaneseWinRiichiTotal: Number(game.northPlayerRiichisWon)}});
+
+            // Save number of hands lost
+            Players.update({_id: east_id}, {$inc: {upperJapaneseHandsLose: Number(game.eastPlayerLosses)}});
+            Players.update({_id: south_id}, {$inc: {upperJapaneseHandsLose: Number(game.southPlayerLosses)}});
+            Players.update({_id: west_id}, {$inc: {upperJapaneseHandsLose: Number(game.westPlayerLosses)}});
+            Players.update({_id: north_id}, {$inc: {upperJapaneseHandsLose: Number(game.northPlayerLosses)}});
+
+            // Save total deal in amount
+            Players.update({_id: east_id}, {$inc: {upperJapaneseDealInTotal: Number(game.eastPlayerDealInTotal)}});
+            Players.update({_id: south_id}, {$inc: {upperJapaneseDealInTotal: Number(game.southPlayerDealInTotal)}});
+            Players.update({_id: west_id}, {$inc: {upperJapaneseDealInTotal: Number(game.westPlayerDealInTotal)}});
+            Players.update({_id: north_id}, {$inc: {upperJapaneseDealInTotal: Number(game.northPlayerDealInTotal)}});
+
+            // Save total deal in times after riichi
+            Players.update({_id: east_id}, {$inc: {upperJapaneseDealInAfterRiichiTotal: Number(game.eastPlayerDealInAfterRiichiTotal)}});
+            Players.update({_id: south_id}, {$inc: {upperJapaneseDealInAfterRiichiTotal: Number(game.southPlayerDealInAfterRiichiTotal)}});
+            Players.update({_id: west_id}, {$inc: {upperJapaneseDealInAfterRiichiTotal: Number(game.westPlayerDealInAfterRiichiTotal)}});
+            Players.update({_id: north_id}, {$inc: {upperJapaneseDealInAfterRiichiTotal: Number(game.northPlayerDealInAfterRiichiTotal)}});
+
+            // Save total self draw times
+            Players.update({_id: east_id}, {$inc: {upperJapaneseSelfDrawTotal: Number(game.eastPlayerSelfDrawTotal)}});
+            Players.update({_id: south_id}, {$inc: {upperJapaneseSelfDrawTotal: Number(game.southPlayerSelfDrawTotal)}});
+            Players.update({_id: west_id}, {$inc: {upperJapaneseSelfDrawTotal: Number(game.westPlayerSelfDrawTotal)}});
+            Players.update({_id: north_id}, {$inc: {upperJapaneseSelfDrawTotal: Number(game.northPlayerSelfDrawTotal)}});
+
+            // Save riichi EV
+            Players.update({_id: east_id}, {$inc: {upperJapaneseRiichiEV: Number(game.eastPlayerRiichiEV)}});
+            Players.update({_id: south_id}, {$inc: {upperJapaneseRiichiEV: Number(game.southPlayerRiichiEV)}});
+            Players.update({_id: west_id}, {$inc: {upperJapaneseRiichiEV: Number(game.westPlayerRiichiEV)}});
+            Players.update({_id: north_id}, {$inc: {upperJapaneseRiichiEV: Number(game.northPlayerRiichiEV)}});
+
+            let idMappings = { east: east_id, south: south_id, west: west_id, north: north_id };
+
+            // Calculates all positions quickly
+            Players.update({ _id: idMappings[game.positions[0].wind] }, { $inc: { upperJapaneseFirstPlaceSum: 1 }});
+            Players.update({ _id: idMappings[game.positions[1].wind] }, { $inc: { upperJapaneseSecondPlaceSum: 1 }});
+            Players.update({ _id: idMappings[game.positions[2].wind] }, { $inc: { upperJapaneseThirdPlaceSum: 1 }});
+            Players.update({ _id: idMappings[game.positions[3].wind] }, { $inc: { upperJapaneseFourthPlaceSum: 1 }});
+        }
     },
 
     updateHongKongPlayers: function (game) {
