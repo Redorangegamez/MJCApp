@@ -9,6 +9,7 @@ import GameRecordUtils from '../../api/utils/GameRecordUtils';
 import { HandScoreCalculator } from '../../api/HandScoreCalculator';
 
 import './RecordJapaneseGame.html';
+import RecalculateStatistics from "../statistics/RecalculateStatistics";
 
 // Code to be evaluated when RecordJapaneseGame template is reloaded
 Template.RecordJapaneseGame.onCreated( function() {
@@ -314,6 +315,7 @@ Template.RecordJapaneseGame.events({
     //Selecting who the east player is
     'change select[name="east_player"]'(event) {
         Session.set("current_east", event.target.value);
+        RecalculateStatistics.calcDealInTotal("iForgot");
     },
     //Selecting who the south player is
     'change select[name="south_player"]'(event) {
