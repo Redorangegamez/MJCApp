@@ -209,6 +209,47 @@ Template.RecordJapaneseGame.helpers({
             case Constants.NORTH: return jpnEloCalculator.eloChange(northPlayer).toFixed(2);
         };
     },
+    // Show what a player's Elo change will look like if game is ended now
+    upper_get_expected_elo_change(direction) {
+
+        let eastPlayer  = Session.get("current_east");
+        let southPlayer = Session.get("current_south");
+        let westPlayer  = Session.get("current_west");
+        let northPlayer = Session.get("current_north");
+
+        if (eastPlayer  == Constants.DEFAULT_EAST ||
+            southPlayer == Constants.DEFAULT_SOUTH ||
+            westPlayer  == Constants.DEFAULT_WEST ||
+            northPlayer == Constants.DEFAULT_NORTH) {
+            return "N/A";
+        }
+
+        let game = {
+            timestamp: Date.now(),
+            east_player: eastPlayer,
+            south_player: southPlayer,
+            west_player: westPlayer,
+            north_player: northPlayer,
+            east_score: (Number(Session.get("east_score"))),
+            south_score: (Number(Session.get("south_score"))),
+            west_score: (Number(Session.get("west_score"))),
+            north_score: (Number(Session.get("north_score"))),
+            all_hands: Template.instance().hands.get(),
+        };
+
+        let jpnEloCalculator = new EloCalculator(Constants.ELO_CALCULATOR_N,
+            Constants.ELO_CALCULATOR_EXP,
+            Constants.JPN_SCORE_ADJUSTMENT,
+            game,
+            Constants.GAME_TYPE.UPPER_JAPANESE);
+
+        switch (direction) {
+            case Constants.EAST:  return jpnEloCalculator.eloChange(eastPlayer).toFixed(2);
+            case Constants.SOUTH: return jpnEloCalculator.eloChange(southPlayer).toFixed(2);
+            case Constants.WEST:  return jpnEloCalculator.eloChange(westPlayer).toFixed(2);
+            case Constants.NORTH: return jpnEloCalculator.eloChange(northPlayer).toFixed(2);
+        };
+    },
     // Show a player's ELO
     get_jpn_elo(player) {
         switch (player) {
@@ -219,6 +260,18 @@ Template.RecordJapaneseGame.helpers({
             return "?";
         default:
             return Players.findOne({japaneseLeagueName: player}).japaneseElo.toFixed(2);
+        };
+    },
+    // Show a player's ELO
+    get_upper_jpn_elo(player) {
+        switch (player) {
+            case Constants.DEFAULT_EAST:
+            case Constants.DEFAULT_SOUTH:
+            case Constants.DEFAULT_WEST:
+            case Constants.DEFAULT_NORTH:
+                return "?";
+            default:
+                return Players.findOne({japaneseLeagueName: player}).upperJapaneseElo.toFixed(2);
         };
     },
     // Return a string of the round wind for Japanese style
@@ -334,6 +387,10 @@ Template.RecordJapaneseGame.events({
             document.getElementById("south_player_dropdown").selectedIndex = 0;
             document.getElementById("west_player_dropdown").selectedIndex = 0;
             document.getElementById("north_player_dropdown").selectedIndex = 0;
+            $("#upperLeagueRow").toggle();
+            $("#upper_elo").toggle();
+            $("#regular_elo").hide();
+
         }
 
         if (!event.target.checked) {
@@ -342,6 +399,9 @@ Template.RecordJapaneseGame.events({
             if (r != true) {
                 return;
             }
+            $("#upperLeagueRow").hide();
+            $("#regular_elo").toggle();
+            $("#upper_elo").hide();
         }
         Session.set("upperJapaneseGame", event.target.checked);
     },
