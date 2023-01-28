@@ -263,7 +263,6 @@ Template.RecordJapaneseGame.helpers({
             return Players.findOne({japaneseLeagueName: player}).japaneseElo.toFixed(2);
         };
     },
-
     // Show a player's ELO
     get_upper_jpn_elo(player) {
         switch (player) {
