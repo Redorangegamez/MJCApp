@@ -75,12 +75,19 @@
     <input type="button" value="Submit Hand" class="btn btn-primary btn-block submit_hand_button cool">
 
     <table style="width:100%">
-      <tr>
+      <tr id="regular_elo">
         <th colspan="4"></th>
         <th>{{get_east}} ({{get_jpn_elo get_east}})</th>
         <th>{{get_south}} ({{get_jpn_elo get_south}})</th>
         <th>{{get_west}} ({{get_jpn_elo get_west}})</th>
         <th>{{get_north}} ({{get_jpn_elo get_north}})</th>
+      </tr>
+      <tr id="upper_elo" hidden>
+        <th colspan="4"></th>
+        <th>{{get_east}} ({{get_jpn_elo get_east}}) ({{get_upper_jpn_elo get_east}})</th>
+        <th>{{get_south}} ({{get_jpn_elo get_south}}) ({{get_upper_jpn_elo get_south}})</th>
+        <th>{{get_west}} ({{get_jpn_elo get_west}}) ({{get_upper_jpn_elo get_west}})</th>
+        <th>{{get_north}} ({{get_jpn_elo get_north}}) ({{get_upper_jpn_elo get_north}})</th>
       </tr>
       <tr>
         <th>Round</th>
@@ -127,6 +134,13 @@
         <td>{{get_expected_elo_change SOUTH}}</td>
         <td>{{get_expected_elo_change WEST}}</td>
         <td>{{get_expected_elo_change NORTH}}</td>
+      </tr>
+      <tr id="upperLeagueRow" hidden>
+        <th colspan="4">Upper League ELO change:</th>
+        <td>{{upper_get_expected_elo_change EAST}}</td>
+        <td>{{upper_get_expected_elo_change SOUTH}}</td>
+        <td>{{upper_get_expected_elo_change WEST}}</td>
+        <td>{{upper_get_expected_elo_change NORTH}}</td>
       </tr>
     </table>
 
