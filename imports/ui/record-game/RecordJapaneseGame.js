@@ -368,7 +368,9 @@ Template.RecordJapaneseGame.events({
     //Selecting who the east player is
     'change select[name="east_player"]'(event) {
         Session.set("current_east", event.target.value);
-        RecalculateStatistics.calcDealInTotal("iForgot");
+        const stat = new RecalculateStatistics(event.target.value);
+        stat.calcDealInTotal();
+        stat.calcWinTotal();
     },
     //Selecting who the south player is
     'change select[name="south_player"]'(event) {
