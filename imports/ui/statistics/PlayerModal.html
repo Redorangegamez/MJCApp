@@ -12,6 +12,12 @@
           <h4> {{ player.preferredName }} </h4>
           <table class="table">
             <tbody>
+              {{ #if player.riichiRate }}
+              <tr>
+                <td>Elo: {{player.elo}}</td>
+                <td>Average hand dora: {{player.averageHandDora}}</td>
+              </tr>
+              {{/if}}
               <tr>
                 <td>Hand win rate: {{ player.handWinRate }}%</td>
                 <td>Deal-in rate: {{ player.dealinRate }}%</td>

@@ -230,19 +230,42 @@ export default {
             Session.set("northPlayerPointsWon", Number(Session.get("northPlayerPointsWon")) - lastHand.northDelta);
     },
 
-    rollbackHandDealinStat(lastHand) {
+    rollbackHandDealinStat(del_hand, riichiHistory) {
         // If we hit a self draw, ensure nothing happens
-        if (lastHand.handType == Constants.SELF_DRAW)
+        if (del_hand.handType == Constants.SELF_DRAW)
             return -1;
+        let eastDeltaTemp = Number(del_hand.eastDelta);
+        let southDeltaTemp = Number(del_hand.southDelta);
+        let westDeltaTemp = Number(del_hand.westDelta);
+        let northDeltaTemp = Number(del_hand.northDelta);
 
-        if (Number(lastHand.eastDelta) < 0)
+        if (riichiHistory.east == true && ((Number(del_hand.eastDelta) + 1000) === 0)) {
+            Session.set("eastPlayerDealInAfterRiichiTotal", Number(Session.get("eastPlayerDealInAfterRiichiTotal")) - 1);
+            eastDeltaTemp += 1000;
+        } else if (riichiHistory.south == true && ((Number(del_hand.southDelta) + 1000) === 0)) {
+            Session.set("southPlayerDealInAfterRiichiTotal", Number(Session.get("southPlayerDealInAfterRiichiTotal")) - 1);
+            southDeltaTemp += 1000;
+        } else if (riichiHistory.west == true && ((Number(del_hand.westDelta) + 1000) === 0)) {
+            Session.set("westPlayerDealInAfterRiichiTotal", Number(Session.get("westPlayerDealInAfterRiichiTotal")) - 1);
+            westDeltaTemp += 1000;
+        } else if (riichiHistory.north == true && ((Number(del_hand.northDelta) + 1000) === 0)) {
+            Session.set("northPlayerDealInAfterRiichiTotal", Number(Session.get("northPlayerDealInAfterRiichiTotal")) - 1);
+            northDeltaTemp += 1000;
+        }
+
+        if (eastDeltaTemp < 0) {
             Session.set("eastPlayerLosses", Number(Session.get("eastPlayerLosses")) - 1);
-        else if (Number(lastHand.southDelta) < 0)
+            Session.set("eastPlayerDealInTotal", Number(Session.get("eastPlayerDealInTotal")) + del_hand.eastDelta);
+        } else if (southDeltaTemp < 0) {
             Session.set("southPlayerLosses", Number(Session.get("southPlayerLosses")) - 1);
-        else if (Number(lastHand.westDelta) < 0)
+            Session.set("southPlayerDealInTotal", Number(Session.get("southPlayerDealInTotal")) + del_hand.southDelta);
+        } else if (westDeltaTemp < 0) {
             Session.set("westPlayerLosses", Number(Session.get("westPlayerLosses")) - 1);
-        else if (Number(lastHand.northDelta) < 0)
+            Session.set("westPlayerDealInTotal", Number(Session.get("westPlayerDealInTotal")) + del_hand.westDelta);
+        } else if (northDeltaTemp < 0) {
             Session.set("northPlayerLosses", Number(Session.get("northPlayerLosses")) - 1);
+            Session.set("northPlayerDealInTotal", Number(Session.get("northPlayerDealInTotal")) + del_hand.northDelta);
+        }
     },
 
     getDirectionScore(direction) {

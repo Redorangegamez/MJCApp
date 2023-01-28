@@ -594,7 +594,7 @@ Template.RecordJapaneseGame.events({
     //Remove the last submitted hand
     'click .delete_hand_button'(event, template) {
         if ( !$(event.target ).hasClass( "disabled" )) {
-            var r = confirm("Are you sure you want to delete the last hand?");
+            let r = confirm("Are you sure you want to delete the last hand?");
             // Reset game to last hand state
             if (r == true) {
                 // Deletes last hand
@@ -610,7 +610,7 @@ Template.RecordJapaneseGame.events({
                 //Set free riichi sticks to last round's value
                 Session.set("free_riichi_sticks", template.riichi_sum_history.pop())
 
-                var riichiHistory = template.riichi_round_history.pop();
+                let riichiHistory = template.riichi_round_history.pop();
                 if (riichiHistory.east == true) {
                     Session.set("east_riichi_sum", Number(Session.get("east_riichi_sum")) - 1);
                     Session.set("eastPlayerRiichiEV", Number(Session.get("eastPlayerRiichiEV")) - del_hand.eastDelta);
@@ -644,7 +644,7 @@ Template.RecordJapaneseGame.events({
                     GameRecordUtils.rollbackTotalPointsStat(del_hand);
 
                     // loss stat -> may occur when pao selfdraw
-                    GameRecordUtils.rollbackHandDealinStat(del_hand);
+                    GameRecordUtils.rollbackHandDealinStat(del_hand, riichiHistory);
 
                     if (Number(del_hand.eastDelta) > 0)
                         Session.set("eastPlayerDoraSum", Number(Session.get("eastPlayerDoraSum")) - del_hand.dora);
@@ -654,35 +654,6 @@ Template.RecordJapaneseGame.events({
                         Session.set("westPlayerDoraSum", Number(Session.get("westPlayerDoraSum")) - del_hand.dora);
                     else if (Number(del_hand.northDelta) > 0)
                         Session.set("northPlayerDoraSum", Number(Session.get("northPlayerDoraSum")) - del_hand.dora);
-
-                    if (del_hand.handType == Constants.DEAL_IN) {
-                        let eastDeltaTemp = Number(del_hand.eastDelta);
-                        let southDeltaTemp = Number(del_hand.southDelta);
-                        let westDeltaTemp = Number(del_hand.westDelta);
-                        let northDeltaTemp = Number(del_hand.northDelta);
-                        if (riichiHistory.east == true && ((Number(del_hand.eastDelta) + 1000) !== 0)) {
-                            Session.set("eastPlayerDealInAfterRiichiTotal", Number(Session.get("eastPlayerDealInAfterRiichiTotal")) - 1);
-                            eastDeltaTemp += 1000;
-                        } else if (riichiHistory.south == true && ((Number(del_hand.southDelta) + 1000) !== 0)) {
-                            Session.set("southPlayerDealInAfterRiichiTotal", Number(Session.get("southPlayerDealInAfterRiichiTotal")) - 1);
-                            southDeltaTemp += 1000;
-                        } else if (riichiHistory.west == true && ((Number(del_hand.westDelta) + 1000) !== 0)) {
-                            Session.set("westPlayerDealInAfterRiichiTotal", Number(Session.get("westPlayerDealInAfterRiichiTotal")) - 1);
-                            westDeltaTemp += 1000;
-                        } else if (riichiHistory.north == true && ((Number(del_hand.northDelta) + 1000) !== 0)) {
-                            Session.set("northPlayerDealInAfterRiichiTotal", Number(Session.get("northPlayerDealInAfterRiichiTotal")) - 1);
-                            northDeltaTemp += 1000;
-                        }
-                        if (eastDeltaTemp < 0) {
-                            Session.set("eastPlayerDealInTotal", Number(Session.get("eastPlayerDealInTotal")) - del_hand.eastDelta);
-                        } else if (southDeltaTemp < 0) {
-                            Session.set("southPlayerDealInTotal", Number(Session.get("southPlayerDealInTotal")) - del_hand.southDelta);
-                        } else if (westDeltaTemp < 0) {
-                            Session.set("westPlayerDealInTotal", Number(Session.get("westPlayerDealInTotal")) - del_hand.westDelta);
-                        } else if (northDeltaTemp < 0) {
-                            Session.set("northPlayerDealInTotal", Number(Session.get("northPlayerDealInTotal")) - del_hand.northDelta);
-                        }
-                    }
 
                     if (del_hand.handType == Constants.SELF_DRAW) {
                         if (del_hand.eastDelta > 0) {
