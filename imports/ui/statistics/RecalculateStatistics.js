@@ -5,7 +5,7 @@ import { JapaneseHands } from '../../api/GameDatabases';
 export default class RecalculateStatistics {
     constructor (japaneseLeagueName) {
         this.japaneseLeagueName = japaneseLeagueName;
-        this.played_games = JapaneseHands.find({ $or: [{ east_player: "iForgot" }, { south_player: "iForgot" }, { west_player: "iForgot" }, { north_player: "iForgot" }] });
+        this.played_games = JapaneseHands.find({ $or: [{ east_player: japaneseLeagueName}, { south_player: japaneseLeagueName}, { west_player: japaneseLeagueName}, { north_player: japaneseLeagueName}] });
         this.games = 0;
         this.games_winning = 0;
         this.total_hands = 0;
