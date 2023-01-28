@@ -127,6 +127,7 @@ export default class RecalculateStatistics {
                 // } else if (riichiHistory.north === true && ((Number(hand.northDelta) + 1000) !== 0)) {
                 //     northDeltaTemp += 1000;
                 // }
+
                 if (eastDeltaTemp > 0 && game.east_player === this.japaneseLeagueName) {
                     this.win_hands++;
                     this.win_points += eastDeltaTemp;
@@ -146,6 +147,17 @@ export default class RecalculateStatistics {
         for (let k in hands2) {
             let hand = hands2[k];
             this.total_hands++;
+            if (hand.handType === Constants.SELF_DRAW) {
+                if (hand.eastDelta > 0 && game.east_player === this.japaneseLeagueName) {
+                    this.self_draw_total++;
+                } else if (hand.southDelta > 0 && game.south_player === this.japaneseLeagueName) {
+                    this.self_draw_total++;
+                } else if (hand.westDelta > 0 && game.west_player === this.japaneseLeagueName) {
+                    this.self_draw_total++;
+                } else if (hand.northDelta > 0 && game.north_player === this.japaneseLeagueName) {
+                    this.self_draw_total++;
+                }
+            }
             if (hand.handType === Constants.DEAL_IN || hand.handType === Constants.SELF_DRAW) {
                 if (hand.eastDelta > 0 && game.east_player === this.japaneseLeagueName) {
                     this.win_hands++;
