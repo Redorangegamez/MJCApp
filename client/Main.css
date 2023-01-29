@@ -113,12 +113,6 @@ tr:nth-of-type(even){
     pointer-events: none !important;
 }
 
-:root {
-    --select-border: #777;
-    --select-focus: blue;
-    --select-arrow: var(--select-border);
-}
-
 select.record {
     padding: 8px;
     cursor: pointer;
