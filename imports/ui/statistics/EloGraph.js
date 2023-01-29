@@ -14,12 +14,16 @@ Template.EloGraph.helpers({
     // Choose player to select from dropdown menus
     players() {
         let playerNames = [];
-        if (Session.get("EloGameType") === "Riichi" || Session.get("EloGameType") === "Upper League") {
-            Players.find({upperJapanese: {$eq: true}}).forEach((val) => {
+        if (Session.get("EloGameType") === "Riichi"){
+            Players.find({$gt:{japaneseGamesPlayed:0}}).forEach((val) => {
+                playerNames.push({LeagueName: val.japaneseLeagueName});
+            });
+        } else if (Session.get("EloGameType") === "Upper League") {
+            Players.find({$gt:{upperJapaneseGamesPlayed:0}}).forEach((val) => {
                 playerNames.push({LeagueName: val.japaneseLeagueName});
             });
         } else if (Session.get("EloGameType") === "Hong Kong") {
-            Players.find({}).forEach((val) => {
+            Players.find({$gt:{hongKongGamesPlayed:0}}).forEach((val) => {
                 playerNames.push({LeagueName: val.hongKongLeagueName});
             });
         }

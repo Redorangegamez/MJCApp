@@ -20,10 +20,17 @@ export default class EloChart {
                     ]} );
         } else if (gameType === "Upper League") {
             this.name = name;
-            this.games = UpperJapaneseHands.find({ $or: [{ east_player: name}, { south_player: name}, { west_player: name}, { north_player: name}] });
+            this.games = UpperJapaneseHands.find(
+                {$and:
+                        [{ $or: [{ east_player: name},
+                                { south_player: name},
+                                { west_player: name},
+                                { north_player: name}] },
+                            {east_elo_after_game: {$exists:true}}
+                        ]} );
         } else {
             this.name = name;
-            this.games = UpperJapaneseHands.find({ $or: [{ east_player: name}, { south_player: name}, { west_player: name}, { north_player: name}] });
+            this.games = HongKongHands.find({ $or: [{ east_player: name}, { south_player: name}, { west_player: name}, { north_player: name}] });
         }
     }
     getChart() {
