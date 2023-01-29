@@ -15,15 +15,15 @@ Template.EloGraph.helpers({
     players() {
         let playerNames = [];
         if (Session.get("EloGameType") === "Riichi"){
-            Players.find({$gt:{japaneseGamesPlayed:0}}).forEach((val) => {
+            Players.find({japaneseGamesPlayed:{$gt:0}}).forEach((val) => {
                 playerNames.push({LeagueName: val.japaneseLeagueName});
             });
         } else if (Session.get("EloGameType") === "Upper League") {
-            Players.find({$gt:{upperJapaneseGamesPlayed:0}}).forEach((val) => {
+            Players.find({upperJapaneseGamesPlayed:{$gt:0}}).forEach((val) => {
                 playerNames.push({LeagueName: val.japaneseLeagueName});
             });
         } else if (Session.get("EloGameType") === "Hong Kong") {
-            Players.find({$gt:{hongKongGamesPlayed:0}}).forEach((val) => {
+            Players.find({hongKongGamesPlayed:{$gt:0}}).forEach((val) => {
                 playerNames.push({LeagueName: val.hongKongLeagueName});
             });
         }
