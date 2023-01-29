@@ -43,6 +43,30 @@ export default class EloChart {
                             data: data.map(game => this.getEloFromGame(game))
                         }
                     ]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            title: {
+                                color: 'blue',
+                                display: true,
+                                text: 'Date',
+                                font: {
+                                    size: 20
+                                }
+                            }
+                        },
+                        y: {
+                            title: {
+                                color: 'blue',
+                                display: true,
+                                text: 'Elo',
+                                font: {
+                                    size: 20
+                                }
+                            }
+                        }
+                    }
                 }
             }
         );
