@@ -119,7 +119,7 @@ tr:nth-of-type(even){
     --select-arrow: var(--select-border);
 }
 
-select {
+select.record {
     padding: 8px;
     cursor: pointer;
     border-radius: 12px;

@@ -335,7 +335,7 @@
 <template name="jpn_points">
   <div>
     <span class="player-select-header"><b>Points: </b></span>
-    <select name="points" class="points">
+    <select name="points" class="points record">
       <option disabled selected value> -- Select points (役) -- </option>
       {{#each possiblePoints}}
       {{> jpn_point_select}}
@@ -352,7 +352,7 @@
 <template name="jpn_fu">
   <div>
     <span class="player-select-header"><b>Fu: </b></span>
-    <select name="fu" class="fu">
+    <select name="fu" class="fu record">
       <option disabled selected value> -- Select Fu (符) -- </option>
       {{#each possibleFu}}
       {{> jpn_fu_select}}
@@ -369,7 +369,7 @@
 <template name="jpn_dora">
   <div>
     <span class="player-select-header"><b>Dora: </b></span>
-    <select name="dora" class="dora">
+    <select name="dora" class="dora record">
       <option disabled selected value> -- Select Dora (ドラ) -- </option>
       {{#each possibleDora}}
       {{> jpn_dora_select}}
