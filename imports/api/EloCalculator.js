@@ -14,13 +14,13 @@ export default class EloCalculator {
     // PUBLIC: Return ELO delta for a player
     eloChange (player) {
         let index, gamesPlayed;
-        if (player == this.game.east_player)
+        if (player === this.game.east_player)
             index = 0;
-        else if (player == this.game.south_player)
+        else if (player === this.game.south_player)
             index = 1;
-        else if (player == this.game.west_player)
+        else if (player === this.game.west_player)
             index = 2;
-        else //if (player == this.game.north_player)
+        else //if (player === this.game.north_player)
             index = 3;
 
         let expectedScores = this.expectedScores();
@@ -64,7 +64,7 @@ export default class EloCalculator {
 	// TODO: Add this back later
         // const k = 100 - Math.min(gamesPlayed, 10) - Math.min(Math.max(gamesPlayed - 10, 0), 10) * 2;
 	    const k = 70;
-        if (this.gameType == Constants.GAME_TYPE.UPPER_JAPANESE) {
+        if (this.gameType === Constants.GAME_TYPE.UPPER_JAPANESE) {
             expectedScores = [1/4,1/4,1/4,1/4];
         }
         return (k * (adjustedScores[index] - expectedScores[index]));

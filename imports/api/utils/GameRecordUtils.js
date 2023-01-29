@@ -124,7 +124,7 @@ export default {
         });
 
         let winner = values.reduce((a, b) => {
-            if (a.value == b.value) {
+            if (a.value === b.value) {
                 return Constants.PRIORITY[a["wind"]] > Constants.PRIORITY[b["wind"]] ? a : b;
             } else {
                 return a.value > b.value ? a : b;
@@ -147,12 +147,12 @@ export default {
         let someoneAboveMinimum = Session.get("current_round") > 8 &&
             this.someoneAboveMinimum(Constants.JPN_END_POINTS);
         // End condition where north player reaches first place after winning on last round
-        let dealerFirstAndAboveMinimum = Session.get("current_round") == 8 &&
+        let dealerFirstAndAboveMinimum = Session.get("current_round") === 8 &&
             Session.get("current_bonus") > 0 &&
             handType !== Constants.JPN_NO_WIN &&
             handType !== Constants.JPN_RESTART &&
             this.getDirectionScore("north") >= Constants.JPN_END_POINTS &&
-            this.getFirstPlace() == "north";
+            this.getFirstPlace() === "north";
 
         return someoneBankrupt || westRoundOver || someoneAboveMinimum || dealerFirstAndAboveMinimum;
     },
@@ -160,7 +160,7 @@ export default {
     noIllegalSelfdrawJapaneseHands() {
         let retval = this.noIllegalJapaneseHands();
 
-        retval = retval && !(Session.get("current_points") == 2 && Session.get("current_fu") == 25);
+        retval = retval && !(Session.get("current_points") === 2 && Session.get("current_fu") === 25);
 
         return retval;
     },
@@ -171,8 +171,8 @@ export default {
         retval = retval && (Session.get("current_points") != 0);
         retval = retval && (Session.get("current_fu") != 0 || Session.get("current_points") > 4);
 
-        retval = retval && !(Session.get("current_points") == 1 && Session.get("current_fu") == 20);
-        retval = retval && !(Session.get("current_points") == 1 && Session.get("current_fu") == 25);
+        retval = retval && !(Session.get("current_points") === 1 && Session.get("current_fu") === 20);
+        retval = retval && !(Session.get("current_points") === 1 && Session.get("current_fu") === 25);
 
         return retval;
     },
@@ -201,19 +201,19 @@ export default {
 
     rollbackHandRiichiStat(lastHand, riichiHistory) {
         if (Number(lastHand.eastDelta) > 0) {
-            if (riichiHistory.east == true)
+            if (riichiHistory.east === true)
                 Session.set("eastPlayerRiichisWon", Number(Session.get("eastPlayerRiichisWon")) - 1);
         }
         else if (Number(lastHand.southDelta) > 0) {
-            if (riichiHistory.south == true)
+            if (riichiHistory.south === true)
                 Session.set("southPlayerRiichisWon", Number(Session.get("southPlayerRiichisWon")) - 1);
         }
         else if (Number(lastHand.westDelta) > 0) {
-            if (riichiHistory.west == true)
+            if (riichiHistory.west === true)
                 Session.set("westPlayerRiichisWon", Number(Session.get("westPlayerRiichisWon")) - 1);
         }
         else if (Number(lastHand.northDelta) > 0) {
-            if (riichiHistory.north == true)
+            if (riichiHistory.north === true)
                 Session.set("northPlayerRiichisWon", Number(Session.get("northPlayerRiichisWon")) - 1);
         }
 
@@ -232,7 +232,7 @@ export default {
 
     rollbackHandDealinStat(lastHand) {
         // If we hit a self draw, ensure nothing happens
-        if (lastHand.handType == Constants.SELF_DRAW)
+        if (lastHand.handType === Constants.SELF_DRAW)
             return -1;
 
         if (Number(lastHand.eastDelta) < 0)
@@ -259,17 +259,17 @@ export default {
     },
 
     playerToDirection(player) {
-        if (player == Session.get("current_east")) return Constants.EAST;
-        if (player == Session.get("current_south")) return Constants.SOUTH;
-        if (player == Session.get("current_west")) return Constants.WEST;
-        if (player == Session.get("current_north")) return Constants.NORTH;
+        if (player === Session.get("current_east")) return Constants.EAST;
+        if (player === Session.get("current_south")) return Constants.SOUTH;
+        if (player === Session.get("current_west")) return Constants.WEST;
+        if (player === Session.get("current_north")) return Constants.NORTH;
     },
 
     roundToDealerDirection(round) {
-        if (round % 4 == 1) return Constants.EAST;
-        if (round % 4 == 2) return Constants.SOUTH;
-        if (round % 4 == 3) return Constants.WEST;
-        if (round % 4 == 0) return Constants.NORTH;
+        if (round % 4 === 1) return Constants.EAST;
+        if (round % 4 === 2) return Constants.SOUTH;
+        if (round % 4 === 3) return Constants.WEST;
+        if (round % 4 === 0) return Constants.NORTH;
     },
 };
 

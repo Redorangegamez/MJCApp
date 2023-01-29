@@ -177,10 +177,10 @@ Template.RecordJapaneseGame.helpers({
         let westPlayer  = Session.get("current_west");
         let northPlayer = Session.get("current_north");
 
-        if (eastPlayer  == Constants.DEFAULT_EAST ||
-            southPlayer == Constants.DEFAULT_SOUTH ||
-            westPlayer  == Constants.DEFAULT_WEST ||
-            northPlayer == Constants.DEFAULT_NORTH) {
+        if (eastPlayer  === Constants.DEFAULT_EAST ||
+            southPlayer === Constants.DEFAULT_SOUTH ||
+            westPlayer  === Constants.DEFAULT_WEST ||
+            northPlayer === Constants.DEFAULT_NORTH) {
             return "N/A";
         }
 
@@ -218,10 +218,10 @@ Template.RecordJapaneseGame.helpers({
         let westPlayer  = Session.get("current_west");
         let northPlayer = Session.get("current_north");
 
-        if (eastPlayer  == Constants.DEFAULT_EAST ||
-            southPlayer == Constants.DEFAULT_SOUTH ||
-            westPlayer  == Constants.DEFAULT_WEST ||
-            northPlayer == Constants.DEFAULT_NORTH) {
+        if (eastPlayer  === Constants.DEFAULT_EAST ||
+            southPlayer === Constants.DEFAULT_SOUTH ||
+            westPlayer  === Constants.DEFAULT_WEST ||
+            northPlayer === Constants.DEFAULT_NORTH) {
             return "N/A";
         }
 
@@ -290,22 +290,22 @@ Template.RecordJapaneseGame.helpers({
 Template.jpn_render_hand.helpers({
     // Boolean expressions to help with rendering hands
     is_dealin(hand_type) {
-        return hand_type == Constants.DEAL_IN;
+        return hand_type === Constants.DEAL_IN;
     },
     is_selfdraw(hand_type) {
-        return hand_type == Constants.SELF_DRAW;
+        return hand_type === Constants.SELF_DRAW;
     },
     is_nowin(hand_type) {
-        return hand_type == Constants.NO_WIN;
+        return hand_type === Constants.NO_WIN;
     },
     is_restart(hand_type) {
-        return hand_type == Constants.RESTART;
+        return hand_type === Constants.RESTART;
     },
     is_mistake(hand_type) {
-        return hand_type == Constants.MISTAKE;
+        return hand_type === Constants.MISTAKE;
     },
     is_pao(hand_type) {
-        return hand_type == Constants.PAO;
+        return hand_type === Constants.PAO;
     },
     // Return a string of the round wind for Japanese style
     displayRoundWind(round) {
@@ -594,11 +594,11 @@ Template.RecordJapaneseGame.events({
     //Remove the last submitted hand
     'click .delete_hand_button'(event, template) {
         if ( !$(event.target ).hasClass( "disabled" )) {
-            var r = confirm("Are you sure you want to delete the last hand?");
+            let r = confirm("Are you sure you want to delete the last hand?");
             // Reset game to last hand state
-            if (r == true) {
+            if (r === true) {
                 // Deletes last hand
-                var del_hand = Template.instance().hands.pop();
+                let del_hand = Template.instance().hands.pop();
 
                 Session.set("east_score", Number(Session.get("east_score")) - Number(del_hand.eastDelta));
                 Session.set("south_score", Number(Session.get("south_score")) - Number(del_hand.southDelta));
@@ -610,30 +610,30 @@ Template.RecordJapaneseGame.events({
                 //Set free riichi sticks to last round's value
                 Session.set("free_riichi_sticks", template.riichi_sum_history.pop())
 
-                var riichiHistory = template.riichi_round_history.pop();
-                if (riichiHistory.east == true) {
+                let riichiHistory = template.riichi_round_history.pop();
+                if (riichiHistory.east === true) {
                     Session.set("east_riichi_sum", Number(Session.get("east_riichi_sum")) - 1);
                     Session.set("eastPlayerRiichiEV", Number(Session.get("eastPlayerRiichiEV")) - del_hand.eastDelta);
                 }
-                if (riichiHistory.south == true) {
+                if (riichiHistory.south === true) {
                     Session.set("south_riichi_sum", Number(Session.get("south_riichi_sum")) - 1);
                     Session.set("southPlayerRiichiEV", Number(Session.get("southPlayerRiichiEV")) - del_hand.southDelta);
                 }
-                if (riichiHistory.west == true) {
+                if (riichiHistory.west === true) {
                     Session.set("west_riichi_sum", Number(Session.get("west_riichi_sum")) - 1);
                     Session.set("westPlayerRiichiEV", Number(Session.get("westPlayerRiichiEV")) - del_hand.westDelta);
                 }
-                if (riichiHistory.north == true) {
+                if (riichiHistory.north === true) {
                     Session.set("north_riichi_sum", Number(Session.get("north_riichi_sum")) - 1);
                     Session.set("northPlayerRiichiEV", Number(Session.get("northPlayerRiichiEV")) - del_hand.northDelta);
                 }
 
                 // Rollback chombo stat
-                if (del_hand.handType == Constants.MISTAKE)
+                if (del_hand.handType === Constants.MISTAKE)
                     GameRecordUtils.rollbackChomboStat(del_hand);
 
                 // Rollback hand win/loss stat
-                if (del_hand.handType == Constants.DEAL_IN || del_hand.handType == Constants.SELF_DRAW) {
+                if (del_hand.handType === Constants.DEAL_IN || del_hand.handType === Constants.SELF_DRAW) {
                     // win stat
                     GameRecordUtils.rollbackHandWinStat(del_hand);
 
@@ -655,21 +655,21 @@ Template.RecordJapaneseGame.events({
                     else if (Number(del_hand.northDelta) > 0)
                         Session.set("northPlayerDoraSum", Number(Session.get("northPlayerDoraSum")) - del_hand.dora);
 
-                    if (del_hand.handType == Constants.DEAL_IN) {
+                    if (del_hand.handType === Constants.DEAL_IN) {
                         let eastDeltaTemp = Number(del_hand.eastDelta);
                         let southDeltaTemp = Number(del_hand.southDelta);
                         let westDeltaTemp = Number(del_hand.westDelta);
                         let northDeltaTemp = Number(del_hand.northDelta);
-                        if (riichiHistory.east == true && ((Number(del_hand.eastDelta) + 1000) !== 0)) {
+                        if (riichiHistory.east === true && ((Number(del_hand.eastDelta) + 1000) !== 0)) {
                             Session.set("eastPlayerDealInAfterRiichiTotal", Number(Session.get("eastPlayerDealInAfterRiichiTotal")) - 1);
                             eastDeltaTemp += 1000;
-                        } else if (riichiHistory.south == true && ((Number(del_hand.southDelta) + 1000) !== 0)) {
+                        } else if (riichiHistory.south === true && ((Number(del_hand.southDelta) + 1000) !== 0)) {
                             Session.set("southPlayerDealInAfterRiichiTotal", Number(Session.get("southPlayerDealInAfterRiichiTotal")) - 1);
                             southDeltaTemp += 1000;
-                        } else if (riichiHistory.west == true && ((Number(del_hand.westDelta) + 1000) !== 0)) {
+                        } else if (riichiHistory.west === true && ((Number(del_hand.westDelta) + 1000) !== 0)) {
                             Session.set("westPlayerDealInAfterRiichiTotal", Number(Session.get("westPlayerDealInAfterRiichiTotal")) - 1);
                             westDeltaTemp += 1000;
-                        } else if (riichiHistory.north == true && ((Number(del_hand.northDelta) + 1000) !== 0)) {
+                        } else if (riichiHistory.north === true && ((Number(del_hand.northDelta) + 1000) !== 0)) {
                             Session.set("northPlayerDealInAfterRiichiTotal", Number(Session.get("northPlayerDealInAfterRiichiTotal")) - 1);
                             northDeltaTemp += 1000;
                         }
@@ -684,7 +684,7 @@ Template.RecordJapaneseGame.events({
                         }
                     }
 
-                    if (del_hand.handType == Constants.SELF_DRAW) {
+                    if (del_hand.handType === Constants.SELF_DRAW) {
                         if (del_hand.eastDelta > 0) {
                             Session.set("eastPlayerSelfDrawTotal", Number(Session.get("eastPlayerSelfDrawTotal")) - 1);
                         } else if (del_hand.southDelta > 0) {
@@ -708,26 +708,26 @@ Template.RecordJapaneseGame.events({
     //Submit a game to the database
     'click .submit_game_button'(event, template) {
         if ( !$(event.target ).hasClass( "disabled" )) {
-            var r = confirm("Are you sure you want to submit this game?");
-            if (r == true) {
+            let r = confirm("Are you sure you want to submit this game?");
+            if (r === true) {
                 if (Session.get("upperJapaneseGame")) {
-                    var r2 = confirm("Are you sure this is an upper ranked game?");
+                    let r2 = confirm("Are you sure this is an upper ranked game?");
                     if (r2 != true) {
                         return;
                     }
                 }
-                var winScore = Math.max(Number(Session.get("east_score")),
+                let winScore = Math.max(Number(Session.get("east_score")),
                                         Number(Session.get("south_score")),
                                         Number(Session.get("west_score")),
                                         Number(Session.get("north_score")));
 
-                if (winScore == Session.get("east_score"))
+                if (winScore === Session.get("east_score"))
                     Session.set("east_score", winScore + Constants.JPN_RIICHI_POINTS * Number(Session.get("free_riichi_sticks")));
-                else if (winScore == Session.get("south_score"))
+                else if (winScore === Session.get("south_score"))
                     Session.set("south_score", winScore + Constants.JPN_RIICHI_POINTS * Number(Session.get("free_riichi_sticks")));
-                else if (winScore == Session.get("west_score"))
+                else if (winScore === Session.get("west_score"))
                     Session.set("west_score", winScore + Constants.JPN_RIICHI_POINTS * Number(Session.get("free_riichi_sticks")));
-                else //if (winScore == Session.get("north_score"))
+                else //if (winScore === Session.get("north_score"))
                     Session.set("north_score", winScore + Constants.JPN_RIICHI_POINTS * Number(Session.get("free_riichi_sticks")));
 
                 save_game_to_database(template.hands.get());
@@ -805,7 +805,7 @@ Template.RecordJapaneseGame.events({
     },
     //Toggle between different round types
     'click .nav-pills li'( event, template ) {
-        var hand_type = $( event.target ).closest( "li" );
+        let hand_type = $( event.target ).closest( "li" );
 
         hand_type.addClass( "active" );
         $( ".nav-pills li" ).not( hand_type ).removeClass( "active" );
@@ -982,20 +982,20 @@ function save_game_to_database(hands_array) {
         JapaneseHands.insert(game);
         if (Session.get("upperJapaneseGame")) {
             // Initialise ELO calculator to update player ELO
-            var upper_jpn_elo_calculator = new EloCalculator(Constants.ELO_CALCULATOR_N,
+            const upper_jpn_elo_calculator = new EloCalculator(Constants.ELO_CALCULATOR_N,
                 Constants.ELO_CALCULATOR_EXP,
                 Constants.JPN_SCORE_ADJUSTMENT,
                 tempGame,
                 Constants.GAME_TYPE.UPPER_JAPANESE);
-            var upper_east_elo_delta = upper_jpn_elo_calculator.eloChange(east_player);
-            var upper_south_elo_delta = upper_jpn_elo_calculator.eloChange(south_player);
-            var upper_west_elo_delta = upper_jpn_elo_calculator.eloChange(west_player);
-            var upper_north_elo_delta = upper_jpn_elo_calculator.eloChange(north_player);
+            const upper_east_elo_delta = upper_jpn_elo_calculator.eloChange(east_player);
+            const upper_south_elo_delta = upper_jpn_elo_calculator.eloChange(south_player);
+            const upper_west_elo_delta = upper_jpn_elo_calculator.eloChange(west_player);
+            const upper_north_elo_delta = upper_jpn_elo_calculator.eloChange(north_player);
 
-            var upper_east_id = Players.findOne({japaneseLeagueName: east_player}, {})._id;
-            var upper_south_id = Players.findOne({japaneseLeagueName: south_player}, {})._id;
-            var upper_west_id = Players.findOne({japaneseLeagueName: west_player}, {})._id;
-            var upper_north_id = Players.findOne({japaneseLeagueName: north_player}, {})._id;
+            const upper_east_id = Players.findOne({japaneseLeagueName: east_player}, {})._id;
+            const upper_south_id = Players.findOne({japaneseLeagueName: south_player}, {})._id;
+            const upper_west_id = Players.findOne({japaneseLeagueName: west_player}, {})._id;
+            const upper_north_id = Players.findOne({japaneseLeagueName: north_player}, {})._id;
 
             const upper_east_elo = Players.findOne({japaneseLeagueName: east_player}, {}).upperJapaneseElo;
             const upper_south_elo = Players.findOne({japaneseLeagueName: south_player}, {}).upperJapaneseElo;
@@ -1133,33 +1133,33 @@ function save_game_to_database(hands_array) {
 };
 
 function push_dealin_hand(template) {
-    var points = Number(Session.get("current_points"));
-    var fu = Number(Session.get("current_fu"));
-    var dora = Number(Session.get("current_dora"));
-    let dealerWind = GameRecordUtils.roundToDealerDirection(Number(Session.get("current_round")));
-    var winnerWind = GameRecordUtils.playerToDirection(Session.get("round_winner"));
-    var loserWind = GameRecordUtils.playerToDirection(Session.get("round_loser"));
-    var riichiSum = Session.get("free_riichi_sticks");
+    const points = Number(Session.get("current_points"));
+    const fu = Number(Session.get("current_fu"));
+    const dora = Number(Session.get("current_dora"));
+    const dealerWind = GameRecordUtils.roundToDealerDirection(Number(Session.get("current_round")));
+    const winnerWind = GameRecordUtils.playerToDirection(Session.get("round_winner"));
+    const loserWind = GameRecordUtils.playerToDirection(Session.get("round_loser"));
+    let riichiSum = Session.get("free_riichi_sticks");
     let seatDeltas = {};
     Constants.WINDS.forEach(w => seatDeltas[w] = 0);
 
     // Find riichis and save them to allocate them
-    if (Session.get("east_riichi") == true) {
+    if (Session.get("east_riichi") === true) {
         seatDeltas[Constants.EAST] -= Constants.JPN_RIICHI_POINTS;
         riichiSum++;
         Session.set("east_riichi_sum", Number(Session.get("east_riichi_sum")) + 1);
     }
-    if (Session.get("south_riichi") == true) {
+    if (Session.get("south_riichi") === true) {
         seatDeltas[Constants.SOUTH] -= Constants.JPN_RIICHI_POINTS;
         riichiSum++;
         Session.set("south_riichi_sum", Number(Session.get("south_riichi_sum")) + 1);
     }
-    if (Session.get("west_riichi") == true) {
+    if (Session.get("west_riichi") === true) {
         seatDeltas[Constants.WEST] -= Constants.JPN_RIICHI_POINTS;
         riichiSum++;
         Session.set("west_riichi_sum", Number(Session.get("west_riichi_sum")) + 1);
     }
-    if (Session.get("north_riichi") == true) {
+    if (Session.get("north_riichi") === true) {
         seatDeltas[Constants.NORTH] -= Constants.JPN_RIICHI_POINTS;
         riichiSum++;
         Session.set("north_riichi_sum", Number(Session.get("north_riichi_sum")) + 1);
@@ -1177,84 +1177,84 @@ function push_dealin_hand(template) {
         seatDeltas[seat] += handDeltas[seat];
     }
 
-    if (winnerWind == Constants.EAST) {
+    if (winnerWind === Constants.EAST) {
         Session.set("eastPlayerWins", Number(Session.get("eastPlayerWins")) + 1);
         Session.set("eastPlayerPointsWon", Number(Session.get("eastPlayerPointsWon")) + seatDeltas["east"]);
         Session.set("eastPlayerDoraSum", Number(Session.get("eastPlayerDoraSum")) + dora);
-        if (Session.get("east_riichi") == true) {
+        if (Session.get("east_riichi") === true) {
             Session.set("eastPlayerRiichisWon", Number(Session.get("eastPlayerRiichisWon")) + 1);
             Session.set("eastPlayerRiichiEV", Number(Session.get("eastPlayerRiichiEV")) + seatDeltas["east"]);
         }
     }
-    else if (winnerWind == Constants.SOUTH) {
+    else if (winnerWind === Constants.SOUTH) {
         Session.set("southPlayerWins", Number(Session.get("southPlayerWins")) + 1);
         Session.set("southPlayerPointsWon", Number(Session.get("southPlayerPointsWon")) + seatDeltas["south"]);
         Session.set("southPlayerDoraSum", Number(Session.get("southPlayerDoraSum")) + dora);
-        if (Session.get("south_riichi") == true) {
+        if (Session.get("south_riichi") === true) {
             Session.set("southPlayerRiichisWon", Number(Session.get("southPlayerRiichisWon")) + 1);
             Session.set("southPlayerRiichiEV", Number(Session.get("southPlayerRiichiEV")) + seatDeltas["south"]);
         }
     }
-    else if (winnerWind == Constants.WEST) {
+    else if (winnerWind === Constants.WEST) {
         Session.set("westPlayerWins", Number(Session.get("westPlayerWins")) + 1);
         Session.set("westPlayerPointsWon", Number(Session.get("westPlayerPointsWon")) + seatDeltas["west"]);
         Session.set("westPlayerDoraSum", Number(Session.get("westPlayerDoraSum")) + dora);
-        if (Session.get("west_riichi") == true) {
+        if (Session.get("west_riichi") === true) {
             Session.set("westPlayerRiichisWon", Number(Session.get("westPlayerRiichisWon")) + 1);
             Session.set("westPlayerRiichiEV", Number(Session.get("westPlayerRiichiEV")) + seatDeltas["west"]);
         }
     }
-    else if (winnerWind == Constants.NORTH) {
+    else if (winnerWind === Constants.NORTH) {
         Session.set("northPlayerWins", Number(Session.get("northPlayerWins")) + 1);
         Session.set("northPlayerPointsWon", Number(Session.get("northPlayerPointsWon")) + seatDeltas["north"]);
         Session.set("northPlayerDoraSum", Number(Session.get("northPlayerDoraSum")) + dora);
-        if (Session.get("north_riichi") == true) {
+        if (Session.get("north_riichi") === true) {
             Session.set("northPlayerRiichisWon", Number(Session.get("northPlayerRiichisWon")) + 1);
             Session.set("northPlayerRiichiEV", Number(Session.get("northPlayerRiichiEV")) + seatDeltas["north"]);
         }
     }
 
-    if (loserWind == Constants.EAST) {
+    if (loserWind === Constants.EAST) {
         Session.set("eastPlayerLosses", Number(Session.get("eastPlayerLosses")) + 1);
         Session.set("eastPlayerDealInTotal", Number(Session.get("eastPlayerDealInTotal")) - seatDeltas["east"]);
-        if (Session.get("east_riichi") == true) {
+        if (Session.get("east_riichi") === true) {
             Session.set("eastPlayerDealInAfterRiichiTotal", Number(Session.get("eastPlayerDealInAfterRiichiTotal")) + 1);
             Session.set("eastPlayerRiichiEV", Number(Session.get("eastPlayerRiichiEV")) + seatDeltas["east"]);
         }
 
-    } else if (loserWind == Constants.SOUTH) {
+    } else if (loserWind === Constants.SOUTH) {
         Session.set("southPlayerLosses", Number(Session.get("southPlayerLosses")) + 1);
         Session.set("southPlayerDealInTotal", Number(Session.get("southPlayerDealInTotal")) - seatDeltas["south"]);
-        if (Session.get("south_riichi") == true) {
+        if (Session.get("south_riichi") === true) {
             Session.set("southPlayerDealInAfterRiichiTotal", Number(Session.get("southPlayerDealInAfterRiichiTotal")) + 1);
             Session.set("southPlayerRiichiEV", Number(Session.get("southPlayerRiichiEV")) + seatDeltas["south"]);
         }
-    } else if (loserWind == Constants.WEST) {
+    } else if (loserWind === Constants.WEST) {
         Session.set("westPlayerLosses", Number(Session.get("westPlayerLosses")) + 1);
         Session.set("westPlayerDealInTotal", Number(Session.get("westPlayerDealInTotal")) - seatDeltas["west"]);
-        if (Session.get("west_riichi") == true) {
+        if (Session.get("west_riichi") === true) {
             Session.set("westPlayerDealInAfterRiichiTotal", Number(Session.get("westPlayerDealInAfterRiichiTotal")) + 1);
             Session.set("westPlayerRiichiEV", Number(Session.get("westPlayerRiichiEV")) + seatDeltas["west"]);
         }
-    } else if (loserWind == Constants.NORTH) {
+    } else if (loserWind === Constants.NORTH) {
         Session.set("northPlayerLosses", Number(Session.get("northPlayerLosses")) + 1);
         Session.set("northPlayerDealInTotal", Number(Session.get("northPlayerDealInTotal")) - seatDeltas["north"]);
-        if (Session.get("north_riichi") == true) {
+        if (Session.get("north_riichi") === true) {
             Session.set("northPlayerDealInAfterRiichiTotal", Number(Session.get("northPlayerDealInAfterRiichiTotal")) + 1);
             Session.set("northPlayerRiichiEV", Number(Session.get("northPlayerRiichiEV")) + seatDeltas["north"]);
         }
     }
 
-    if (loserWind != Constants.EAST && winnerWind != Constants.EAST && Session.get("east_riichi") == true) {
+    if (loserWind != Constants.EAST && winnerWind != Constants.EAST && Session.get("east_riichi") === true) {
         Session.set("eastPlayerRiichiEV", Number(Session.get("eastPlayerRiichiEV")) - 1000);
     }
-    if (loserWind != Constants.SOUTH && winnerWind != Constants.SOUTH && Session.get("south_riichi") == true) {
+    if (loserWind != Constants.SOUTH && winnerWind != Constants.SOUTH && Session.get("south_riichi") === true) {
         Session.set("southPlayerRiichiEV", Number(Session.get("southPlayerRiichiEV")) - 1000);
     }
-    if (loserWind != Constants.WEST && winnerWind != Constants.WEST && Session.get("west_riichi") == true) {
+    if (loserWind != Constants.WEST && winnerWind != Constants.WEST && Session.get("west_riichi") === true) {
         Session.set("westPlayerRiichiEV", Number(Session.get("westPlayerRiichiEV")) - 1000);
     }
-    if (loserWind != Constants.NORTH && winnerWind != Constants.NORTH && Session.get("north_riichi") == true) {
+    if (loserWind != Constants.NORTH && winnerWind != Constants.NORTH && Session.get("north_riichi") === true) {
         Session.set("northPlayerRiichiEV", Number(Session.get("northPlayerRiichiEV")) - 1000);
     }
 
@@ -1271,7 +1271,7 @@ function push_dealin_hand(template) {
 
     Session.set("free_riichi_sticks", 0);
 
-    if (winnerWind == dealerWind) {
+    if (winnerWind === dealerWind) {
         Session.set("current_bonus", Number(Session.get("current_bonus")) + 1);
     } else {
         Session.set("current_bonus", 0);
@@ -1285,31 +1285,31 @@ function push_dealin_hand(template) {
 };
 
 function push_selfdraw_hand(template) {
-    var points = Number(Session.get("current_points"));
-    var fu = Number(Session.get("current_fu"));
-    var dora = Number(Session.get("current_dora"));
-    let dealerWind = GameRecordUtils.roundToDealerDirection(Number(Session.get("current_round")));
-    var winnerWind = GameRecordUtils.playerToDirection(Session.get("round_winner"));
-    var riichiSum = Session.get("free_riichi_sticks");
+    const points = Number(Session.get("current_points"));
+    const fu = Number(Session.get("current_fu"));
+    const dora = Number(Session.get("current_dora"));
+    const dealerWind = GameRecordUtils.roundToDealerDirection(Number(Session.get("current_round")));
+    const winnerWind = GameRecordUtils.playerToDirection(Session.get("round_winner"));
+    let riichiSum = Session.get("free_riichi_sticks");
     let seatDeltas = {};
     Constants.WINDS.forEach(w => seatDeltas[w] = 0);
 
-    if (Session.get("east_riichi") == true) {
+    if (Session.get("east_riichi") === true) {
         seatDeltas[Constants.EAST] -= Constants.JPN_RIICHI_POINTS;
         riichiSum++;
         Session.set("east_riichi_sum", Number(Session.get("east_riichi_sum")) + 1);
     }
-    if (Session.get("south_riichi") == true) {
+    if (Session.get("south_riichi") === true) {
         seatDeltas[Constants.SOUTH] -= Constants.JPN_RIICHI_POINTS;
         riichiSum++;
         Session.set("south_riichi_sum", Number(Session.get("south_riichi_sum")) + 1);
     }
-    if (Session.get("west_riichi") == true) {
+    if (Session.get("west_riichi") === true) {
         seatDeltas[Constants.WEST] -= Constants.JPN_RIICHI_POINTS;
         riichiSum++;
         Session.set("west_riichi_sum", Number(Session.get("west_riichi_sum")) + 1);
     }
-    if (Session.get("north_riichi") == true) {
+    if (Session.get("north_riichi") === true) {
         seatDeltas[Constants.NORTH] -= Constants.JPN_RIICHI_POINTS;
         riichiSum++;
         Session.set("north_riichi_sum", Number(Session.get("north_riichi_sum")) + 1);
@@ -1327,63 +1327,63 @@ function push_selfdraw_hand(template) {
         seatDeltas[seat] += handDeltas[seat];
     }
 
-    if (Session.get("east_riichi") == true) {
+    if (Session.get("east_riichi") === true) {
         if (winnerWind != Constants.EAST) {
             Session.set("eastPlayerRiichiEV", Number(Session.get("eastPlayerRiichiEV")) + seatDeltas["east"]);
         }
     }
-    if (Session.get("south_riichi") == true) {
+    if (Session.get("south_riichi") === true) {
         if (winnerWind != Constants.SOUTH) {
             Session.set("southPlayerRiichiEV", Number(Session.get("southPlayerRiichiEV")) + seatDeltas["south"]);
         }
     }
-    if (Session.get("west_riichi") == true) {
+    if (Session.get("west_riichi") === true) {
         if (winnerWind != Constants.WEST) {
             Session.set("westPlayerRiichiEV", Number(Session.get("westPlayerRiichiEV")) + seatDeltas["west"]);
         }
     }
-    if (Session.get("north_riichi") == true) {
+    if (Session.get("north_riichi") === true) {
         if (winnerWind != Constants.NORTH) {
             Session.set("northPlayerRiichiEV", Number(Session.get("northPlayerRiichiEV")) + seatDeltas["north"]);
         }
     }
 
-    if (winnerWind == Constants.EAST) {
+    if (winnerWind === Constants.EAST) {
         Session.set("eastPlayerWins", Number(Session.get("eastPlayerWins")) + 1);
         Session.set("eastPlayerPointsWon", Number(Session.get("eastPlayerPointsWon")) + seatDeltas["east"]);
         Session.set("eastPlayerDoraSum", Number(Session.get("eastPlayerDoraSum")) + dora);
         Session.set("eastPlayerSelfDrawTotal", Number(Session.get("eastPlayerSelfDrawTotal")) + 1)
-        if (Session.get("east_riichi") == true) {
+        if (Session.get("east_riichi") === true) {
             Session.set("eastPlayerRiichisWon", Number(Session.get("eastPlayerRiichisWon")) + 1);
             Session.set("eastPlayerRiichiEV", Number(Session.get("eastPlayerRiichiEV")) + seatDeltas["east"]);
         }
     }
-    else if (winnerWind == Constants.SOUTH) {
+    else if (winnerWind === Constants.SOUTH) {
         Session.set("southPlayerWins", Number(Session.get("southPlayerWins")) + 1);
         Session.set("southPlayerPointsWon", Number(Session.get("southPlayerPointsWon")) + seatDeltas["south"]);
         Session.set("southPlayerDoraSum", Number(Session.get("southPlayerDoraSum")) + dora);
         Session.set("southPlayerSelfDrawTotal", Number(Session.get("southPlayerSelfDrawTotal")) + 1)
-        if (Session.get("south_riichi") == true) {
+        if (Session.get("south_riichi") === true) {
             Session.set("southPlayerRiichisWon", Number(Session.get("southPlayerRiichisWon")) + 1);
             Session.set("southPlayerRiichiEV", Number(Session.get("southPlayerRiichiEV")) + seatDeltas["south"]);
         }
     }
-    else if (winnerWind == Constants.WEST) {
+    else if (winnerWind === Constants.WEST) {
         Session.set("westPlayerWins", Number(Session.get("westPlayerWins")) + 1);
         Session.set("westPlayerPointsWon", Number(Session.get("westPlayerPointsWon")) + seatDeltas["west"]);
         Session.set("westPlayerDoraSum", Number(Session.get("westPlayerDoraSum")) + dora);
         Session.set("westPlayerSelfDrawTotal", Number(Session.get("westPlayerSelfDrawTotal")) + 1)
-        if (Session.get("west_riichi") == true) {
+        if (Session.get("west_riichi") === true) {
             Session.set("westPlayerRiichisWon", Number(Session.get("westPlayerRiichisWon")) + 1);
             Session.set("westPlayerRiichiEV", Number(Session.get("westPlayerRiichiEV")) + seatDeltas["west"]);
         }
     }
-    else if (winnerWind == Constants.NORTH) {
+    else if (winnerWind === Constants.NORTH) {
         Session.set("northPlayerWins", Number(Session.get("northPlayerWins")) + 1);
         Session.set("northPlayerPointsWon", Number(Session.get("northPlayerPointsWon")) + seatDeltas["north"]);
         Session.set("northPlayerDoraSum", Number(Session.get("northPlayerDoraSum")) + dora);
         Session.set("northPlayerSelfDrawTotal", Number(Session.get("northPlayerSelfDrawTotal")) + 1)
-        if (Session.get("north_riichi") == true) {
+        if (Session.get("north_riichi") === true) {
             Session.set("northPlayerRiichisWon", Number(Session.get("northPlayerRiichisWon")) + 1);
             Session.set("northPlayerRiichiEV", Number(Session.get("northPlayerRiichiEV")) + seatDeltas["north"]);
         }
@@ -1402,7 +1402,7 @@ function push_selfdraw_hand(template) {
 
     Session.set("free_riichi_sticks", 0);
 
-    if (winnerWind == dealerWind)
+    if (winnerWind === dealerWind)
         Session.set("current_bonus", Number(Session.get("current_bonus")) + 1);
     else {
         Session.set("current_bonus", 0);
@@ -1416,42 +1416,42 @@ function push_selfdraw_hand(template) {
 };
 
 function push_nowin_hand(template) {
-    var eastDelta = 0, southDelta = 0, westDelta = 0, northDelta = 0;
-    var tenpaiSum = 0, tenpaiWin, tenpaiLose, riichiSum = 0;
+    let eastDelta = 0, southDelta = 0, westDelta = 0, northDelta = 0;
+    let tenpaiSum = 0, tenpaiWin, tenpaiLose, riichiSum = 0;
 
-    if (Session.get("east_tenpai") == true) tenpaiSum++;
-    if (Session.get("south_tenpai") == true) tenpaiSum++;
-    if (Session.get("west_tenpai") == true) tenpaiSum++;
-    if (Session.get("north_tenpai") == true) tenpaiSum++;
+    if (Session.get("east_tenpai") === true) tenpaiSum++;
+    if (Session.get("south_tenpai") === true) tenpaiSum++;
+    if (Session.get("west_tenpai") === true) tenpaiSum++;
+    if (Session.get("north_tenpai") === true) tenpaiSum++;
 
     tenpaiWin = Constants.JPN_TENPAI_PAYOUT / tenpaiSum;
     tenpaiLose = -Constants.JPN_TENPAI_PAYOUT / (4 - tenpaiSum);
     if (tenpaiSum != 4 && tenpaiSum != 0) {
-        eastDelta += Session.get("east_tenpai") == true ? tenpaiWin : tenpaiLose;
-        southDelta += Session.get("south_tenpai") == true ? tenpaiWin : tenpaiLose;
-        westDelta += Session.get("west_tenpai") == true ? tenpaiWin : tenpaiLose;
-        northDelta += Session.get("north_tenpai") == true ? tenpaiWin : tenpaiLose;
+        eastDelta += Session.get("east_tenpai") === true ? tenpaiWin : tenpaiLose;
+        southDelta += Session.get("south_tenpai") === true ? tenpaiWin : tenpaiLose;
+        westDelta += Session.get("west_tenpai") === true ? tenpaiWin : tenpaiLose;
+        northDelta += Session.get("north_tenpai") === true ? tenpaiWin : tenpaiLose;
     }
 
-    if (Session.get("east_riichi") == true) {
+    if (Session.get("east_riichi") === true) {
         eastDelta -= Constants.JPN_RIICHI_POINTS;
         riichiSum++;
         Session.set("east_riichi_sum", Number(Session.get("east_riichi_sum")) + 1);
         Session.set("eastPlayerRiichiEV", Number(Session.get("eastPlayerRiichiEV")) + eastDelta);
     }
-    if (Session.get("south_riichi") == true) {
+    if (Session.get("south_riichi") === true) {
         southDelta -= Constants.JPN_RIICHI_POINTS;
         riichiSum++;
         Session.set("south_riichi_sum", Number(Session.get("south_riichi_sum")) + 1);
         Session.set("southPlayerRiichiEV", Number(Session.get("southPlayerRiichiEV")) + southDelta);
     }
-    if (Session.get("west_riichi") == true) {
+    if (Session.get("west_riichi") === true) {
         westDelta -= Constants.JPN_RIICHI_POINTS;
         riichiSum++;
         Session.set("west_riichi_sum", Number(Session.get("west_riichi_sum")) + 1);
         Session.set("westPlayerRiichiEV", Number(Session.get("westPlayerRiichiEV")) + westDelta);
     }
-    if (Session.get("north_riichi") == true) {
+    if (Session.get("north_riichi") === true) {
         northDelta -= Constants.JPN_RIICHI_POINTS;
         riichiSum++;
         Session.set("north_riichi_sum", Number(Session.get("north_riichi_sum")) + 1);
@@ -1466,7 +1466,7 @@ function push_nowin_hand(template) {
             west: Session.get("west_riichi"),
             north: Session.get("north_riichi")});
 
-    if (Session.get(GameRecordUtils.roundToDealerDirection(Session.get("current_round")) + "_tenpai") == true)
+    if (Session.get(GameRecordUtils.roundToDealerDirection(Session.get("current_round")) + "_tenpai") === true)
         Session.set("current_bonus", Number(Session.get("current_bonus")) + 1);
     else {
         Session.set("current_bonus", Number(Session.get("current_bonus")) + 1);
@@ -1480,28 +1480,28 @@ function push_nowin_hand(template) {
 };
 
 function push_restart_hand(template) {
-    var eastDelta = 0, southDelta = 0, westDelta = 0, northDelta = 0;
-    var riichiSum = 0;
+    let eastDelta = 0, southDelta = 0, westDelta = 0, northDelta = 0;
+    let riichiSum = 0;
 
-    if (Session.get("east_riichi") == true) {
+    if (Session.get("east_riichi") === true) {
         eastDelta -= Constants.JPN_RIICHI_POINTS;
         riichiSum++;
         Session.set("east_riichi_sum", Number(Session.get("east_riichi_sum")) + 1);
         Session.set("eastPlayerRiichiEV", Number(Session.get("eastPlayerRiichiEV")) + eastDelta);
     }
-    if (Session.get("south_riichi") == true) {
+    if (Session.get("south_riichi") === true) {
         southDelta -= Constants.JPN_RIICHI_POINTS;
         riichiSum++;
         Session.set("south_riichi_sum", Number(Session.get("south_riichi_sum")) + 1);
         Session.set("southPlayerRiichiEV", Number(Session.get("southPlayerRiichiEV")) + southDelta);
     }
-    if (Session.get("west_riichi") == true) {
+    if (Session.get("west_riichi") === true) {
         westDelta -= Constants.JPN_RIICHI_POINTS;
         riichiSum++;
         Session.set("west_riichi_sum", Number(Session.get("west_riichi_sum")) + 1);
         Session.set("westPlayerRiichiEV", Number(Session.get("westPlayerRiichiEV")) + westDelta);
     }
-    if (Session.get("north_riichi") == true) {
+    if (Session.get("north_riichi") === true) {
         northDelta -= Constants.JPN_RIICHI_POINTS;
         riichiSum++;
         Session.set("north_riichi_sum", Number(Session.get("north_riichi_sum")) + 1);
@@ -1528,13 +1528,13 @@ function push_mistake_hand(template) {
     let loserWind = GameRecordUtils.playerToDirection(Session.get("round_loser"));
     let handDeltas = HandScoreCalculator.jpn.mistakeDelta(loserWind);
 
-    if (loserWind == Constants.EAST) {
+    if (loserWind === Constants.EAST) {
         Session.set("eastMistakeTotal", Number(Session.get("eastMistakeTotal")) + 1);
-    } else if (loserWind == Constants.SOUTH) {
+    } else if (loserWind === Constants.SOUTH) {
         Session.set("southMistakeTotal", Number(Session.get("southMistakeTotal")) + 1);
-    } else if (loserWind == Constants.WEST) {
+    } else if (loserWind === Constants.WEST) {
         Session.set("westMistakeTotal", Number(Session.get("westMistakeTotal")) + 1);
-    } else if (loserWind == Constants.NORTH) {
+    } else if (loserWind === Constants.NORTH) {
         Session.set("northMistakeTotal", Number(Session.get("northMistakeTotal")) + 1);
     }
 
@@ -1556,18 +1556,18 @@ function push_mistake_hand(template) {
 };
 
 function push_split_pao_hand(template) {
-    var points = Number(Session.get("current_points"));
-    var fu = Number(Session.get("current_fu"));
-    var dora = Number(Session.get("current_dora"));
-    let dealerWind = GameRecordUtils.roundToDealerDirection(Number(Session.get("current_round")));
-    var winnerWind = GameRecordUtils.playerToDirection(Session.get("round_winner"));
-    var loserWind = GameRecordUtils.playerToDirection(Session.get("round_loser"));
-    var paoWind = GameRecordUtils.playerToDirection(Session.get("round_pao_player"));
-    var riichiSum = Session.get("free_riichi_sticks");
+    const points = Number(Session.get("current_points"));
+    const fu = Number(Session.get("current_fu"));
+    const dora = Number(Session.get("current_dora"));
+    const dealerWind = GameRecordUtils.roundToDealerDirection(Number(Session.get("current_round")));
+    const winnerWind = GameRecordUtils.playerToDirection(Session.get("round_winner"));
+    const loserWind = GameRecordUtils.playerToDirection(Session.get("round_loser"));
+    const paoWind = GameRecordUtils.playerToDirection(Session.get("round_pao_player"));
+    let riichiSum = Session.get("free_riichi_sticks");
     let seatDeltas = {};
     Constants.WINDS.forEach(w => seatDeltas[w] = 0);
 
-    var value = HandScoreCalculator.jpn.dealinDelta(points,
+    let value = HandScoreCalculator.jpn.dealinDelta(points,
         fu,
         Number(Session.get("current_bonus")),
         dealerWind,
@@ -1575,11 +1575,11 @@ function push_split_pao_hand(template) {
         loserWind,
         0)[winnerWind];
 
-    if (((value / 2 ) % 100) == 50) {
+    if (((value / 2 ) % 100) === 50) {
         value += 100;
     }
 
-    if (Session.get("east_riichi") == true) {
+    if (Session.get("east_riichi") === true) {
         seatDeltas[Constants.EAST] -= Constants.JPN_RIICHI_POINTS;
         riichiSum++;
         Session.set("east_riichi_sum", Number(Session.get("east_riichi_sum")) + 1);
@@ -1587,17 +1587,17 @@ function push_split_pao_hand(template) {
             Session.set("eastPlayerRiichiEV", Number(Session.get("eastPlayerRiichiEV")) - 1000);
         }
     }
-    if (Session.get("south_riichi") == true) {
+    if (Session.get("south_riichi") === true) {
         seatDeltas[Constants.SOUTH] -= Constants.JPN_RIICHI_POINTS;
         riichiSum++;
         Session.set("south_riichi_sum", Number(Session.get("south_riichi_sum")) + 1);
     }
-    if (Session.get("west_riichi") == true) {
+    if (Session.get("west_riichi") === true) {
         seatDeltas[Constants.WEST] -= Constants.JPN_RIICHI_POINTS;
         riichiSum++;
         Session.set("west_riichi_sum", Number(Session.get("west_riichi_sum")) + 1);
     }
-    if (Session.get("north_riichi") == true) {
+    if (Session.get("north_riichi") === true) {
         seatDeltas[Constants.NORTH] -= Constants.JPN_RIICHI_POINTS;
         riichiSum++;
         Session.set("north_riichi_sum", Number(Session.get("north_riichi_sum")) + 1);
@@ -1612,79 +1612,79 @@ function push_split_pao_hand(template) {
         }
     }
 
-    if (winnerWind == Constants.EAST) {
+    if (winnerWind === Constants.EAST) {
         Session.set("eastPlayerWins", Number(Session.get("eastPlayerWins")) + 1);
         Session.set("eastPlayerPointsWon", Number(Session.get("eastPlayerPointsWon")) + seatDeltas["east"]);
         Session.set("eastPlayerDoraSum", Number(Session.get("eastPlayerDoraSum")) + dora);
-        if (Session.get("east_riichi") == true) {
+        if (Session.get("east_riichi") === true) {
             Session.set("eastPlayerRiichisWon", Number(Session.get("eastPlayerRiichisWon")) + 1);
             Session.set("eastPlayerRiichiEV", Number(Session.get("eastPlayerRiichiEV")) + seatDeltas["east"]);
         }
     }
-    else if (winnerWind == Constants.SOUTH) {
+    else if (winnerWind === Constants.SOUTH) {
         Session.set("southPlayerWins", Number(Session.get("southPlayerWins")) + 1);
         Session.set("southPlayerPointsWon", Number(Session.get("southPlayerPointsWon")) + seatDeltas["south"]);
         Session.set("southPlayerDoraSum", Number(Session.get("southPlayerDoraSum")) + dora);
-        if (Session.get("south_riichi") == true) {
+        if (Session.get("south_riichi") === true) {
             Session.set("southPlayerRiichisWon", Number(Session.get("southPlayerRiichisWon")) + 1);
             Session.set("southPlayerRiichiEV", Number(Session.get("southPlayerRiichiEV")) + seatDeltas["south"]);
         }
     }
-    else if (winnerWind == Constants.WEST) {
+    else if (winnerWind === Constants.WEST) {
         Session.set("westPlayerWins", Number(Session.get("westPlayerWins")) + 1);
         Session.set("westPlayerPointsWon", Number(Session.get("westPlayerPointsWon")) + seatDeltas["west"]);
         Session.set("westPlayerDoraSum", Number(Session.get("westPlayerDoraSum")) + dora);
-        if (Session.get("west_riichi") == true) {
+        if (Session.get("west_riichi") === true) {
             Session.set("westPlayerRiichisWon", Number(Session.get("westPlayerRiichisWon")) + 1);
             Session.set("westPlayerRiichiEV", Number(Session.get("westPlayerRiichiEV")) + seatDeltas["west"]);
         }
     }
-    else if (winnerWind == Constants.NORTH) {
+    else if (winnerWind === Constants.NORTH) {
         Session.set("northPlayerWins", Number(Session.get("northPlayerWins")) + 1);
         Session.set("northPlayerPointsWon", Number(Session.get("northPlayerPointsWon")) + seatDeltas["north"]);
         Session.set("northPlayerDoraSum", Number(Session.get("northPlayerDoraSum")) + dora);
-        if (Session.get("north_riichi") == true) {
+        if (Session.get("north_riichi") === true) {
             Session.set("northPlayerRiichisWon", Number(Session.get("northPlayerRiichisWon")) + 1);
             Session.set("northPlayerRiichiEV", Number(Session.get("northPlayerRiichiEV")) + seatDeltas["north"]);
         }
     }
 
-    if (loserWind == Constants.EAST || paoWind == Constants.EAST) {
+    if (loserWind === Constants.EAST || paoWind === Constants.EAST) {
         Session.set("eastPlayerLosses", Number(Session.get("eastPlayerLosses")) + 1);
         Session.set("eastPlayerDealInTotal", Number(Session.get("eastPlayerDealInTotal")) + value / 2);
-        if (Session.get("east_riichi") == true) {
+        if (Session.get("east_riichi") === true) {
             Session.set("eastlayerRiichiEV", Number(Session.get("eastPlayerRiichiEV")) + seatDeltas["east"]);
         }
-    } else if (loserWind == Constants.SOUTH || paoWind == Constants.SOUTH) {
+    } else if (loserWind === Constants.SOUTH || paoWind === Constants.SOUTH) {
         Session.set("southPlayerLosses", Number(Session.get("southPlayerLosses")) + 1);
         Session.set("southPlayerDealInTotal", Number(Session.get("southPlayerDealInTotal")) + value / 2);
-        if (Session.get("south_riichi") == true) {
+        if (Session.get("south_riichi") === true) {
             Session.set("southlayerRiichiEV", Number(Session.get("southPlayerRiichiEV")) + seatDeltas["south"]);
         }
-    } else if (loserWind == Constants.WEST || paoWind == Constants.WEST) {
+    } else if (loserWind === Constants.WEST || paoWind === Constants.WEST) {
         Session.set("westPlayerLosses", Number(Session.get("westPlayerLosses")) + 1);
         Session.set("westPlayerDealInTotal", Number(Session.get("westPlayerDealInTotal")) + value / 2);
-        if (Session.get("west_riichi") == true) {
+        if (Session.get("west_riichi") === true) {
             Session.set("westlayerRiichiEV", Number(Session.get("westPlayerRiichiEV")) + seatDeltas["west"]);
         }
-    } else if (loserWind == Constants.NORTH || paoWind == Constants.NORTH) {
+    } else if (loserWind === Constants.NORTH || paoWind === Constants.NORTH) {
         Session.set("northPlayerLosses", Number(Session.get("northPlayerLosses")) + 1);
         Session.set("northPlayerDealInTotal", Number(Session.get("northPlayerDealInTotal")) + value / 2);
-        if (Session.get("north_riichi") == true) {
+        if (Session.get("north_riichi") === true) {
             Session.set("northlayerRiichiEV", Number(Session.get("northPlayerRiichiEV")) + seatDeltas["north"]);
         }
     }
 
-    if (loserWind != Constants.EAST && winnerWind != Constants.EAST && paoWind == Constants.EAST && Session.get("east_riichi") == true) {
+    if (loserWind != Constants.EAST && winnerWind != Constants.EAST && paoWind === Constants.EAST && Session.get("east_riichi") === true) {
         Session.set("eastPlayerRiichiEV", Number(Session.get("eastPlayerRiichiEV")) - 1000);
     }
-    if (loserWind != Constants.SOUTH && winnerWind != Constants.SOUTH && paoWind == Constants.SOUTH && Session.get("south_riichi") == true) {
+    if (loserWind != Constants.SOUTH && winnerWind != Constants.SOUTH && paoWind === Constants.SOUTH && Session.get("south_riichi") === true) {
         Session.set("southPlayerRiichiEV", Number(Session.get("southPlayerRiichiEV")) - 1000);
     }
-    if (loserWind != Constants.WEST && winnerWind != Constants.WEST && paoWind == Constants.WEST && Session.get("west_riichi") == true) {
+    if (loserWind != Constants.WEST && winnerWind != Constants.WEST && paoWind === Constants.WEST && Session.get("west_riichi") === true) {
         Session.set("westPlayerRiichiEV", Number(Session.get("westPlayerRiichiEV")) - 1000);
     }
-    if (loserWind != Constants.NORTH && winnerWind != Constants.NORTH && paoWind == Constants.NORTH && Session.get("north_riichi") == true) {
+    if (loserWind != Constants.NORTH && winnerWind != Constants.NORTH && paoWind === Constants.NORTH && Session.get("north_riichi") === true) {
         Session.set("northPlayerRiichiEV", Number(Session.get("northPlayerRiichiEV")) - 1000);
     }
 
@@ -1701,7 +1701,7 @@ function push_split_pao_hand(template) {
                 west: Session.get("west_riichi"),
                 north: Session.get("north_riichi")});
 
-    if (winnerWind == dealerWind)
+    if (winnerWind === dealerWind)
         Session.set("current_bonus", Number(Session.get("current_bonus")) + 1);
     else {
         Session.set("current_bonus", 0);

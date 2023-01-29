@@ -85,14 +85,14 @@ function jpnSelfDrawDelta(points, fu, bonus, dealerWind, winnerWind, riichiStick
     } else {
         basicPoints = manganValue(points);
     }
-    nonDealerPays = Math.ceil(basicPoints / 100 * (dealerWind == winnerWind ? 2 : 1)) * 100;
+    nonDealerPays = Math.ceil(basicPoints / 100 * (dealerWind === winnerWind ? 2 : 1)) * 100;
     dealerPays = Math.ceil(basicPoints / 100 * 2) * 100;
 
     // Everyone loses except the winner
     Object.keys(winds).forEach(v => winds[v] = -(nonDealerPays + individualBonusPayout));
 
     // If dealer wins, everyone pays dealer amount, otherwise dealer pays differently
-    if (winnerWind == dealerWind) {
+    if (winnerWind === dealerWind) {
         winds[dealerWind] = (nonDealerPays * 3)
             + (bonusPoints)
             + (riichiSticks * Constants.JPN_RIICHI_POINTS);
