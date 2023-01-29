@@ -1,3 +1,27 @@
 <template name="EloGraph">
     <h2>Elo Graph</h2>
+    <div class="player-entry col-lg-3 col-xs-6">
+        <p>Game Type</p>
+        <select name="elo_type" id="elo_type_dropdown">
+            <option disabled selected value> -- Select Game Type -- </option>
+            <option>Riichi</option>
+            <option>Hong Kong</option>
+            <option>Upper League</option>
+        </select>
+        <p>Player</p>
+        <select name="elo_player" id="elo_player_dropdown">
+            <option disabled selected value> -- Select Player -- </option>
+            {{#each players}}
+                {{> player}}
+            {{/each}}
+        </select>
+        <input type="button" value="Get Elo Graph" class="btn btn-primary btn-block get_elo_button cool">
+    </div>
+    <div style="width: 800px;">
+        <canvas id="eloChart"></canvas>
+    </div>
+</template>
+
+<template name="player">
+    <option value={{japaneseLeagueName}} class="player_select">{{japaneseLeagueName}}</option>
 </template>

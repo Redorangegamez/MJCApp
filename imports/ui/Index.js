@@ -4,6 +4,7 @@ import './Index.html';
 
 import './record-game/RecordHongKongGame';
 import './record-game/RecordJapaneseGame';
+import './statistics/EloGraph';
 import './ranking/Ranking';
 
 Template.Index.onCreated( function() {
@@ -20,7 +21,7 @@ Template.Index.events({
     'click .nav-tabs li'( event, template ) {
         // Prevent dropdown menus from being selectable,
         // but maintain their clickiness
-        var currentTab = $( event.target ).closest( "li" );
+        let currentTab = $( event.target ).closest( "li" );
 
         if (currentTab.data("template") === undefined)
             return;
