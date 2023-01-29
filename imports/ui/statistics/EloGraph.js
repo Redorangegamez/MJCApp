@@ -1,11 +1,12 @@
 import Players from '../../api/Players';
 import './EloGraph.html';
 import EloChart from './EloChart';
-import Constants from "../../api/Constants";
+
+let current_chart;
 
 Template.EloGraph.onCreated( function() {
     Session.set("EloGameType","Riichi");
-
+    Session.set("ExistChart", false);
 });
 
 // GUI helpers for hand submission template
@@ -13,25 +14,17 @@ Template.EloGraph.helpers({
     // Choose player to select from dropdown menus
     players() {
         let playerNames = [];
-        if (Session.get("EloGameType") === "Riichi") {
+        if (Session.get("EloGameType") === "Riichi" || Session.get("EloGameType") === "Upper League") {
             Players.find({upperJapanese: {$eq: true}}).forEach((val) => {
-                playerNames.push({japaneseLeagueName: val.japaneseLeagueName});
+                playerNames.push({LeagueName: val.japaneseLeagueName});
             });
-        } else if (Session.get("EloGameType") === "Upper League") {
+        } else if (Session.get("EloGameType") === "Hong Kong") {
             Players.find({}).forEach((val) => {
-                playerNames.push({japaneseLeagueName: val.japaneseLeagueName});
+                playerNames.push({LeagueName: val.hongKongLeagueName});
             });
-        } else {
-            Players.find({}).forEach((val) => {
-                playerNames.push({hongKongLeagueName: val.hongKongLeagueName});
-            });
-            playerNames.sort((a, b) => {
-                return a.hongKongLeagueName.toLowerCase().localeCompare(b.hongKongLeagueName.toLowerCase());
-            });
-            return playerNames;
         }
         playerNames.sort((a, b) => {
-            return a.japaneseLeagueName.toLowerCase().localeCompare(b.japaneseLeagueName.toLowerCase());
+            return a.LeagueName.toLowerCase().localeCompare(b.LeagueName.toLowerCase());
         });
         return playerNames;
     }
@@ -45,7 +38,11 @@ Template.EloGraph.events({
         Session.set("EloPlayer", event.target.value);
     },
     'click .get_elo_button'(event) {
-        let eloChart = new EloChart(Session.get("EloPlayer"), Session.get("EloGameType"));
-        eloChart.getChart();
+        let canvas = document.getElementById("eloChart");
+        let eloChart = new EloChart(Session.get("EloPlayer"), Session.get("EloGameType"), canvas);
+        if (current_chart !== undefined) {
+            current_chart.destroy();
+        }
+        current_chart = eloChart.getChart();
     }
 });

@@ -5,8 +5,9 @@ import './EloGraph.html';
 import RecalculateStatistics from "./RecalculateStatistics";
 
 export default class EloChart {
-    constructor (name,gameType) {
+    constructor (name,gameType, canvas) {
         this.gameType = gameType;
+        this.canvas = canvas;
         if (gameType === "Riichi") {
             this.name = name;
             this.games = JapaneseHands.find(
@@ -28,8 +29,10 @@ export default class EloChart {
     getChart() {
         const data = [];
         this.games.forEach(game => data.push(game));
-        let chart = new Chart(
-            document.getElementById('eloChart'),
+        if (data.length === 0) {
+            return window.alert("There are no games!");
+        }
+        return new Chart(this.canvas,
             {
                 type: 'line',
                 data: {
