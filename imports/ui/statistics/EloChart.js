@@ -41,11 +41,11 @@ export default class EloChart {
         }
         data.sort((a,b) => {
             if (a.timestamp < b.timestamp) {
-                return 1;
+                return -1;
             } else if (a.timestamp === b.timestamp) {
                 return 0;
             } else {
-                return -1;
+                return 1;
             }
         });
         return new Chart(this.canvas,
