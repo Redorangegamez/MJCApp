@@ -1,10 +1,8 @@
 import Chart from 'chart.js/auto';
 import {JapaneseHands, UpperJapaneseHands, HongKongHands} from '../../api/GameDatabases';
-import Players from '../../api/Players';
 import './EloGraph.html';
-import RecalculateStatistics from "./RecalculateStatistics";
 
-export default class EloChart {
+export default class DataRetriever {
     constructor (name,gameType, canvas) {
         this.gameType = gameType;
         this.canvas = canvas;

@@ -1,6 +1,6 @@
 import Players from '../../api/Players';
 import './EloGraph.html';
-import EloChart from './EloChart';
+import DataRetriever from './DataRetriever';
 
 let current_chart;
 
@@ -43,10 +43,10 @@ Template.EloGraph.events({
     },
     'click .get_elo_button'(event) {
         let canvas = document.getElementById("eloChart");
-        let eloChart = new EloChart(Session.get("EloPlayer"), Session.get("EloGameType"), canvas);
+        let data = new DataRetriever(Session.get("EloPlayer"), Session.get("EloGameType"), canvas);
         if (current_chart !== undefined) {
             current_chart.destroy();
         }
-        current_chart = eloChart.getChart();
+        current_chart = data.getChart();
     }
 });

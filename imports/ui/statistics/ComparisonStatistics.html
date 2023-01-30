@@ -1,0 +1,62 @@
+<template name="ComparisonStatistics">
+    <h2>Comparison Statistics</h2>
+    <p>Game Type</p>
+    <select name="comparison_type" id="comparison_type_dropdown">
+        <option disabled selected value> -- Select Game Type -- </option>
+        <option>Riichi</option>
+        <option>Hong Kong</option>
+        <option>Upper League</option>
+    </select>
+    <div class="row">
+        <div class="column">
+            <p>Player 1</p>
+            <select name="comparison_player1" id="comparison_player_dropdown1">
+                <option disabled selected value> -- Select Player -- </option>
+                {{#each players}}
+                {{> player_comparison}}
+                {{/each}}
+            </select>
+        </div>
+        <div class="column">
+            <p> </p>
+            <p> </p>
+        </div>
+        <div class="column">
+            <p>Player 2</p>
+            <select name="comparison_player2" id="comparison_player_dropdown2">
+                <option disabled selected value> -- Select Player -- </option>
+                {{#each players}}
+                {{> player_comparison}}
+                {{/each}}
+            </select>
+        </div>
+    </div>
+    <input type="button" value="Get Comparison" class="btn btn-primary btn-block get_comparison_button cool">
+    <div class="row" id="comparison_div" style="display:none">
+        <div class="column">
+            <ul style="list-style-type: none">
+                {{#each stats_player_1}}
+                {{> stat_comparison}}
+                {{/each}}
+            </ul>
+        </div>
+        <div class="column">
+            {{#each stats_name}}
+            {{> stat_comparison}}
+            {{/each}}
+        </div>
+        <div class="column">
+            {{#each stats_player_2}}
+            {{> stat_comparison}}
+            {{/each}}
+        </div>
+    </div>
+</template>
+
+<template name="player_comparison">
+    <option value={{LeagueName}} class="player_select">{{LeagueName}}</option>
+</template>
+
+<template name="stat_comparison">
+    <li>{{stat}}</li>
+</template>

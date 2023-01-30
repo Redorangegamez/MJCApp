@@ -5,6 +5,7 @@ import './Index.html';
 import './record-game/RecordHongKongGame';
 import './record-game/RecordJapaneseGame';
 import './statistics/EloGraph';
+import './statistics/ComparisonStatistics';
 import './ranking/Ranking';
 
 Template.Index.onCreated( function() {
