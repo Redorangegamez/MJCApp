@@ -12,12 +12,12 @@ export default class EloChart {
             this.name = name;
             this.games = JapaneseHands.find(
                 {$and:
-                    [{ $or: [{ east_player: "Aviation Expert"},
-                        { south_player: "Aviation Expert"},
-                        { west_player: "Aviation Expert"},
-                        { north_player: "Aviation Expert"}] },
+                    [{ $or: [{ east_player: name},
+                        { south_player: name},
+                        { west_player: name},
+                        { north_player: name}] },
                       {east_elo_after_game: {$exists:true}}
-                    ]} ).sort({timestamp:1});
+                    ]} );
         } else if (gameType === "Upper League") {
             this.name = name;
             this.games = UpperJapaneseHands.find(
@@ -27,10 +27,10 @@ export default class EloChart {
                                 { west_player: name},
                                 { north_player: name}] },
                             {east_elo_after_game: {$exists:true}}
-                        ]} ).sort({timestamp:1});
+                        ]} );
         } else {
             this.name = name;
-            this.games = HongKongHands.find({ $or: [{ east_player: name}, { south_player: name}, { west_player: name}, { north_player: name}] }).sort({timestamp:1});
+            this.games = HongKongHands.find({ $or: [{ east_player: name}, { south_player: name}, { west_player: name}, { north_player: name}] });
         }
     }
     getChart() {
@@ -39,6 +39,15 @@ export default class EloChart {
         if (data.length === 0) {
             return window.alert("There are no games!");
         }
+        data.sort((a,b) => {
+            if (a.timestamp < b.timestamp) {
+                return 1;
+            } else if (a.timestamp === b.timestamp) {
+                return 0;
+            } else {
+                return -1;
+            }
+        });
         return new Chart(this.canvas,
             {
                 type: 'line',
