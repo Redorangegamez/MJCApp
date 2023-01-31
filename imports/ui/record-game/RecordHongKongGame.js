@@ -394,11 +394,23 @@ function save_game_to_database(hands_array) {
     const west_player = Session.get("current_west");
     const north_player= Session.get("current_north");
 
+    const tempGame = {
+        timestamp: Date.now(),
+        east_player: east_player,
+        south_player: south_player,
+        west_player: west_player,
+        north_player: north_player,
+        east_score: (Number(Session.get("east_score"))),
+        south_score: (Number(Session.get("south_score"))),
+        west_score: (Number(Session.get("west_score"))),
+        north_score: (Number(Session.get("north_score"))),
+        all_hands_after_game: hands_array,
+    };
 
     const hk_elo_calculator = new EloCalculator(Constants.ELO_CALCULATOR_N,
                                               Constants.ELO_CALCULATOR_EXP,
                                               Constants.HKG_SCORE_ADJUSTMENT,
-                                              game,
+                                              tempGame,
                                               Constants.GAME_TYPE.HONG_KONG);
     const east_elo_delta = hk_elo_calculator.eloChange(east_player);
     const south_elo_delta = hk_elo_calculator.eloChange(south_player);
