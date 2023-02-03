@@ -36,19 +36,23 @@
         <div class="column">
             <ul style="list-style-type: none">
                 {{#each stats_player_1}}
-                {{> stat_comparison}}
+                <li>{{stats}}</li>
                 {{/each}}
             </ul>
         </div>
         <div class="column">
-            {{#each stats_name}}
-            {{> stat_comparison}}
-            {{/each}}
+            <ul style="list-style-type: none">
+                {{#each stats_player_2}}
+                <li>{{stats}}</li>
+                {{/each}}
+            </ul>
         </div>
         <div class="column">
-            {{#each stats_player_2}}
-            {{> stat_comparison}}
-            {{/each}}
+            <ul style="list-style-type: none">
+                {{#each stats_player_3}}
+                <li>{{stats}}</li>
+                {{/each}}
+            </ul>
         </div>
     </div>
 </template>
@@ -57,6 +61,6 @@
     <option value={{LeagueName}} class="player_select">{{LeagueName}}</option>
 </template>
 
-<template name="stat_comparison">
-    <li>{{stat}}</li>
+<template name="stats">
+    <li>{{stats}}</li>
 </template>
