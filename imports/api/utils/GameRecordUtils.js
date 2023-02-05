@@ -149,7 +149,6 @@ export default {
         // End condition where north player reaches first place after winning on last round
         let dealerFirstAndAboveMinimum = Session.get("current_round") === 8 &&
             Session.get("current_bonus") > 0 &&
-            handType !== Constants.JPN_NO_WIN &&
             handType !== Constants.JPN_RESTART &&
             this.getDirectionScore("north") >= Constants.JPN_END_POINTS &&
             this.getFirstPlace() === "north";
