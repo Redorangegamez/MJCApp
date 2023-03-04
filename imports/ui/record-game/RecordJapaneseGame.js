@@ -584,7 +584,7 @@ Template.RecordJapaneseGame.events({
             }
 
             // If game ending conditions are met, do not allow more hand submissions and allow game submission
-            if (GameRecordUtils.japaneseGameOver(handType)) {
+            if (GameRecordUtils.japaneseGameOver(handType, template.hands.get())) {
                 $( event.target ).addClass( "disabled");
                 $( ".submit_game_button" ).removeClass( "disabled" );
             }

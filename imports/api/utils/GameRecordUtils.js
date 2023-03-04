@@ -138,7 +138,7 @@ export default {
      * Determine if the game ending conditions for a Japanese mahjong game are met
      * @return {Boolean} True if game is over, false if not
      */
-    japaneseGameOver(handType) {
+    japaneseGameOver(handType, hands) {
         // End condition where someone has below zero points
         let someoneBankrupt = this.someoneBankrupt();
         // End condition where game has reached the end of west round without at least one player above minimum
@@ -152,7 +152,10 @@ export default {
             handType !== Constants.JPN_RESTART &&
             this.getDirectionScore("north") >= Constants.JPN_END_POINTS &&
             this.getFirstPlace() === "north";
-
+        let last_hand = hands[hands.length - 1];
+        if (last_hand.round === 7) {
+            dealerFirstAndAboveMinimum = false;
+        }
         return someoneBankrupt || westRoundOver || someoneAboveMinimum || dealerFirstAndAboveMinimum;
     },
 
