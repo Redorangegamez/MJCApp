@@ -79,10 +79,10 @@ const Constants = {
     // 3rd = 3rd - 30,000 + 0 = -5,000
     // 4th = 4th - 30,000 - 10,000 = -15,000
     JPN_SCORE_ADJUSTMENT: [
-        15000,
-        5000,
-        -5000,
-        -15000
+        20000,
+        10000,
+        0,
+        -30000
     ],
 
     // Placeholder value to establish a player select button
