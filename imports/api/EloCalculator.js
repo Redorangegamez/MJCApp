@@ -70,8 +70,8 @@ export default class EloCalculator {
         }
         let elo_difference = fieldElo - this.getPlayerElo(player);
         let first_calc = (score - 25000 + adjustments[index]) / 1000;
-        let correlation = 0.24;
-        let k_factor = 40
+        let correlation = 0.25;
+        let k_factor = 240
 
         return (first_calc * correlation + elo_difference / k_factor);
     }
